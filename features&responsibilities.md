@@ -4,34 +4,50 @@
 
 ### Feature: Viewing the timetable
 
-As an student, I need to be able to see my timetable (time, place and language of instruction for each course) to know when and where I have to attend to class.
+As a student/manager, I want to be able to see my timetable s.t. I know when and where the courses take place
 
-As an teacher, I need to be able to see my timetable (time, place and language of instruction for each course) to know when and where my course slot takes place.
+As a teacher, I want to be able to see my timetable s.t. I know when and where the courses take place, and be able to perform scheduling, and also manage my preferences
+
+As a scheduling committee, I want to be able the timetable for all courses taking place s.t. I know when and where the courses take place, and be able to perform scheduling
 
 #### Feature breakdown
 
 0. Login
-1. Someone opens the Schedule window.
-2. The schedule for the current week is shown.
-3. If someone presses on some course in the schedule, a window opens showing the course's time, place and language of instruction
-4. If someone presses the "Whole year" (or "Detailed"), the schedule for the whole year is shown.
+1. Anyone can open the Timetable page
+2. The schedule for the current week is shown
+3. If a course button is pressed in the schedule, a course detail page is opened ('Viewing the course info' feature)
+4. If the 'Whole year' button is pressed, the schedule for the whole year is shown
 
 #### Responsibilities
 
 ##### Schedule info responsibilities
 * Load the schedule info
-* Cache is possible
-
-##### Schedule info responsibilities
-* Load the schedule info
-* Cache is possible
+* Cache
 
 ##### Course info responsibilities
 * Load the course info
 * Cache
 
 
+
 ### Feature: Viewing the course info
+
+As a student/scheduling committee/manager, I want to see the course info s.t. I know the course's details
+
+As a teacher, I want to see the course info s.t. I know the course's details, and be able to manage them
+
+#### Feature breakdown
+
+0. Anyone can view the course's details on the page
+1. A teacher can also press the 'Edit' button to open the new page where the course's info can be managed ('Course management' feature)
+
+#### Responsibilities
+
+##### Course editing responsibilities
+* Provide an edit form
+* Save the new info in the database
+
+
 
 ### Feature: Viewing the teacher info
 
