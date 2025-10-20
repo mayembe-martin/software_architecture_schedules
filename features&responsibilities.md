@@ -44,15 +44,90 @@ As a student/manager, I want to see the course info s.t. I know the course's det
 
 
 ### Feature: Viewing the teacher info
+eñrihfbwñrfvb
 
 ### Feature: Viewing the student info
 
+
+
+
 ### Feature: Viewing the room info
+
+As a student, I want to see details about a classroom(location, capacity).
+
+As a teacher or scheduling committee, I want to view room's availability and capacity, so I can plan and schedule courses.
+
+
+#### Feature breakdown
+
+1. User accesses the room information, from a list of rooms in a building or from a room link in a course description.
+2. System displays the room's details(building, capacity, type, floor).
+3. System shows a list of courses taking place in this room.
+4. Calendar view shows the room's schedule.
+5. Schedule comittee have a functionality to book the room for a specific time slot.
+
+
+#### Responsibilities
+
+##### Room information responsibilities
+* Retrieve room data from the database.
+* Fetch and provide the room's booking schedule.
+* Cache frequently accessed room data.
+* Validate schedule view data with the database.
+* Provide API for other systems(for example enrollments) to query room availability and capacity.
+
+##### Security responsibilities
+* Control access to sensitive information and room booking functionality based on user title.
+* Log view access, number of students in each room and how many courses per day are in each room for auditing and statistics.
+
+##### Presentation responsibilities
+* Display room details in a structured way.
+* Display the room's schedule in a weekly calendar format.
+* Search and filter functionality to find rooms based on capacity or availability.
+* Ensure data integrity with the database.
 
 
 ### Feature: Schedule modification
 
 As a teacher, I want to be able to change the classroom and the time at the Schedule if its neccesary, and the Student should be notified by this.
+
+As a schedulling committee, I want to be able to modify the schedule to resolve potential conflicts between the courses.
+
+#### Feature breakdown
+
+1. User selects a specific course in the schedule.
+2. User sends a modification request to the system.
+3. System opens an editing interface for the user.
+4. System analyzes the proposed change for conflicts with the teacher's or the room's schedules.
+5. If there is a conflict, system displays an error.
+6. If there is no conflict, user confirms the change and it is applied.
+7. System updates the timetable in the database.
+8. System sends a notification to all enrolled students about the change.
+
+
+#### Responsibilities
+
+#### Login and validation responsibilities
+* Authorize the user which performs the modification, either teacher or scheduling committee.
+* Validate the modification to prevent conflicts with relevant schedules of rooms and teachers.
+
+
+##### Modification user interface responsibilities
+* Provide an interface for selecting and editing a schedule.
+* Suggest available rooms and time slots.
+* Allow users to provide a comment to the schedule modification.
+* Provide a preview of the schedule with the changes, before the final confirmation.
+
+
+##### Notification responsibilities
+* Identify all users that are affected by the modification of the schedule.
+* Generate and send notifications using each student's email.
+* Log any notification issues.
+
+##### Data management responsibilities
+* Execute schedule update as a database transaction
+* Provide audit log of all changes.
+* Implement a concurrency control to prevent data corruption, when multiple users attempt to modify the same schedule.
 
 
 ### Feature: Creating timetable
