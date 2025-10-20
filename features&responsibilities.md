@@ -205,20 +205,82 @@ As a student, I want the system to show me any schedule conflicts in my register
 * Provide an intuitive and non-intrusive UI for viewing conflicts.
 
 
-### Feature: Teacher preference
 
-As a teacher, I have a lot of lectures over the week which i need to reach so I should be able to tell the committee my personal prefereces and the best schedule so they have them into account when they do the planning.
+### Fearure: Teacher Preference
+As a teacher, I have a lot of lectures over the week which I need to reach so I should be able to tell the committee my personal preferences and the best schedule so they have them into account when they do the planning.
+## Feature Breakdown (capabilities → key behaviors)
+# Profile & Availability
+o	Should be able to efine weekly availability windows
+o	Should be able to mark blackout dates/periods (leave days, conferences, etc)
+o	Should be able to set preferred days/times and campuses/rooms
+o	SShoud be able to state equipment needs and room constraints
+# Load & Spacing Rules
+o	Should be able to see max daily/weekly teaching load
+o	Should be able to see min gap between classes
+# Versioning & Lifecycle
+o	Should be to save as draft ↔ Submit ↔ Review/Approve ↔ Lock for term
+o	Should be to see preferences from previous terms
+# Validation & Guidance
+o	Detect overlaps/impossible rules
+o	
+o	
+# Audit & Privacy
+o	Track changes and approvals
+o	Role-scoped visibility (Teacher, Scheduler, Admin)
+## System Responsibilities
+# Presentation/UI
+•	Render weekly grid editor (availability/blackouts/preferred)
+•	Course/section ranking widgets; hard/soft toggles with weights
+•	Status banners (draft/submitted/approved/locked) and deadline warnings
+•   Provide human-readable, actionable error messages
+# Application/Business
+•	Retreive teacher weekly schedule elements (availability, blackouts, etc)
+•	Enforce transitions and deadlines (semesters, etc)
+•	Do policy checks on draft schedules when attempting to save (e.g., minimum presence windows, maximum number of classes per day/week, etc)
+•	Aggregate feedback into per-teacher satisfaction scores
+# Persistence
+•	Store preferences per teacher per term; time windows
+•	Track reviews/approvals with timestamps and actors
+•	Keep immutable audit log (before/after diffs or event log)
+•	Persist version history; support clone-from-previous-term
+# Non-functional
+•	Strong input validation
+•	Access logging and retention aligned with institutional policy
 
 
-### Feature: Statistical reports
+### Feature: Statistical Reports
+## Feature Breakdown (capabilities → key behaviors)
+# Resource Utilization
+o	Should be able to view room utilization by hour/day/building/term
+o	Should be able to view equipment usage saturation
+o	Should be able to view teacher time utilization
+# Exploration & Exports
+o	Should be able to apply filters to the schedule (term, program, department, campus, teacher, room)
+o	Should be able to drill-down from KPI → offending assignments → suggested fixes
+o	Shoud be able to perform scheduled exports (CSV/XLSX) and snapshotting for comparisons
 
-As a manager, I want to see the data of the system, the reports of its use and another funcionalities.
+## System Responsibilities
+# Presentation/UI
+•	Show KPI tiles (at-a-glance), traffic-light status (green/amber/red)
+•	show Room/slot heatmaps; trend charts; sortable violation tables
+•	Show quick filters and saved views; export buttons
+•	Show a comparison view (current vs previous version/term)
+# Application/Business
+•	Compute KPI progress statistics
+•	Compute room usage statistics
+•	Filter data according to user input
+•	Export statistics page to various formats (pdf, excel, word)
+•	Compute comparisons between current and previous terms
+# Persistence
+•	Retrieve  teacher perfomance data from the database
+•	Retrieve room usage data from the database
+•	Retrieve teacher performance data from previous and current term
+•	Filter data according to user input
+# Integration
+•	Optional hooks to BI tools (read-only)
 
 
-<<<<<<< HEAD
 
-
-=======
 ### Feature: Viewing the timetable (teacher)
 
 As a teacher, I want to be able to see my timetable s.t. I know when and where the courses take place, and be able to perform scheduling, and also manage my preferences
@@ -247,4 +309,3 @@ As a scheduling committee, I want to see the course info s.t. I know the course'
 ### Feature: Viewing the course info (manager)
 
 As a manager, I want to see the course info s.t. I know the course's details
->>>>>>> 2cf5d23a0230cb71ebab847b69b2cb65ebc80c0f
