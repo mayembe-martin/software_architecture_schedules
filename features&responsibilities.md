@@ -217,6 +217,7 @@ As a manager, I want to see the data of the system, the reports of its use and a
 
 <<<<<<< HEAD
 
+
 =======
 ### Feature: Viewing the timetable (teacher)
 
