@@ -2,26 +2,22 @@
 
 ## Core features and responsibilities
 
-### Feature: Viewing the timetable
+### Feature: Viewing the timetable (student)
 
-As a student/manager, I want to be able to see my timetable s.t. I know when and where the courses take place
-
-As a teacher, I want to be able to see my timetable s.t. I know when and where the courses take place, and be able to perform scheduling, and also manage my preferences
-
-As a scheduling committee, I want to be able the timetable for all courses taking place s.t. I know when and where the courses take place, and be able to perform scheduling
+As a student, I want to be able to see my timetable s.t. I know when and where the courses take place
 
 #### Feature breakdown
 
 0. Login
 1. Anyone can open the Timetable page
-2. The schedule for the current week is shown
+2. The timetable for the current week is shown (which the student is enrolled to)
 3. If a course button is pressed in the schedule, a course detail page is opened ('Viewing the course info' feature)
 4. If the 'Whole year' button is pressed, the schedule for the whole year is shown
 
 #### Responsibilities
 
-##### Schedule info responsibilities
-* Load the schedule info
+##### Timetable info responsibilities
+* Load the timetable info (based on who is viewing this)
 * Cache
 
 ##### Course info responsibilities
@@ -30,11 +26,9 @@ As a scheduling committee, I want to be able the timetable for all courses takin
 
 
 
-### Feature: Viewing the course info
+### Feature: Viewing the course info (student)
 
-As a student/scheduling committee/manager, I want to see the course info s.t. I know the course's details
-
-As a teacher, I want to see the course info s.t. I know the course's details, and be able to manage them
+As a student/manager, I want to see the course info s.t. I know the course's details
 
 #### Feature breakdown
 
@@ -221,4 +215,35 @@ As a teacher, I have a lot of lectures over the week which i need to reach so I 
 As a manager, I want to see the data of the system, the reports of its use and another funcionalities.
 
 
+<<<<<<< HEAD
 
+=======
+### Feature: Viewing the timetable (teacher)
+
+As a teacher, I want to be able to see my timetable s.t. I know when and where the courses take place, and be able to perform scheduling, and also manage my preferences
+
+
+### Feature: Viewing the timetable (scheduling committee)
+
+As a scheduling committee, I want to be able the timetable for all courses taking place s.t. I know when and where the courses take place, and be able to perform scheduling
+
+
+### Feature: Viewing the timetable (manager)
+
+As a manager, I want to be able to see my timetable s.t. I know when and where the courses take place
+
+
+### Feature: Viewing the course info (teacher)
+
+As a teacher, I want to see the course info s.t. I know the course's details, and be able to manage them
+
+
+### Feature: Viewing the course info (scheduling committee)
+
+As a scheduling committee, I want to see the course info s.t. I know the course's details
+
+
+### Feature: Viewing the course info (manager)
+
+As a manager, I want to see the course info s.t. I know the course's details
+>>>>>>> 2cf5d23a0230cb71ebab847b69b2cb65ebc80c0f
