@@ -50,7 +50,7 @@ As a teacher, I want to see the course info s.t. I know the course's details, an
 
 
 ### Feature: Viewing the teacher info
-
+eñrihfbwñrfvb
 
 ### Feature: Viewing the student info
 
