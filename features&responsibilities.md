@@ -43,11 +43,47 @@ As a student/manager, I want to see the course info s.t. I know the course's det
 
 
 
-### Feature: Viewing the teacher info
-eñrihfbwñrfvb
+### Feature: Viewing the teacher info – office hours (student)
+As a student, I want to see the office hours of a determined teacher.
 
-### Feature: Viewing the student info
+## Feature breakdown
+0.	The student logins into the system
+1.	The system identifies the student and lets him enter to the app in student mode.
+2.	“Teachers” button should be available in the central panel
+3.	When the student presses the “Teachers” button, the system must redirect him to the teacher search window
+4.	The student enters the info about the teacher in the search pannel.
+5.	The system loads the information to the database in order to find the desired teacher profile
+6.	The system loads the information of the database to the presentation layer of the student
+7.	When the desired teacher profile is selected, the system must redirect the student to the personal teacher window
+8.	There, many options should be available, “office hours” being one of them
+9.	When the student pushes the “office hours” option, the system must display the office hours schedule with varios options to view the schedule (day by day, week by week…)
 
+## Responsabilities
+
+# Login and validation responsibilities:
+-	The system must ensure that the user which is login is a student
+
+# Searching system responsibilities:
+-	The system must have all the information related to the teacher in its database.
+-	The data base must be actualized to provide the latest information.
+-	The system must be capable of searching the required teacher in the database.
+-	The system must be able to load to the presentation layer the information of the database requested.
+# Display of info responsibilities:
+-	The system must display the “teachers” button in the main menu
+-	The system must display all possible filters in the research menu
+-	The system must display all the requested teachers in the research menu.
+-	The system must display the teachers’ information in the teacher page, along with the links to other sections
+-	The system must provide links to minor specific information.
+-	The system must display the schedule of the office hours in many different ways.
+
+## Auxiliar Feature: Viewing the teacher info – General information (student)
+As a student, I want to have the general information (e-mail, phone, office place…) at hand.
+## Auxiliar Feature: Viewing the student info – General information (anyone)
+As a system user, I want to have the general information (e-mail, course, photo) of every student registered in the system
+## Auxiliar Feature: Viewing the student info – Specific information (teacher)
+As a teacher, I want to have the specific information (ID number, grading, assigned tutor…) of the students registered in the system.
+## Auxiliar Feature: Viewing the teacher info – General Information (anyone)
+As a system user, I want to have the general information (e-mail, course, photo) of every teacher registered in the system
 
 
 
