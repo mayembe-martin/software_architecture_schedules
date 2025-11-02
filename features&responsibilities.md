@@ -48,8 +48,8 @@ As a student, I want to see the office hours of a determined teacher.
 
 ## Feature breakdown
 0.	The student logins into the system
-1.	The system identifies the student and lets him enter to the app in student mode.
-2.	“Teachers” button should be available in the central panel
+1.	The system identifies the student and let him enter to the app in student mode.
+2.	“Teachers” button should be available in the central pannel
 3.	When the student presses the “Teachers” button, the system must redirect him to the teacher search window
 4.	The student enters the info about the teacher in the search pannel.
 5.	The system loads the information to the database in order to find the desired teacher profile
@@ -63,12 +63,14 @@ As a student, I want to see the office hours of a determined teacher.
 # Login and validation responsibilities:
 -	The system must ensure that the user which is login is a student
 
-# Searching system responsibilities:
+# Searching system responsibilities (technnical responsabilities):
 -	The system must have all the information related to the teacher in its database.
 -	The data base must be actualized to provide the latest information.
 -	The system must be capable of searching the required teacher in the database.
 -	The system must be able to load to the presentation layer the information of the database requested.
-# Display of info responsibilities:
+-   The system should be able to apply the desired filters to accotate the search of teachers
+-   
+# Display of info responsibilities (Presentation layer responsabilities):
 -	The system must display the “teachers” button in the main menu
 -	The system must display all possible filters in the research menu
 -	The system must display all the requested teachers in the research menu.
