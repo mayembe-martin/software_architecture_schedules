@@ -8,38 +8,57 @@ As a student, I want to be able to see my timetable s.t. I know when and where t
 
 #### Feature breakdown
 
-0. Login
-1. Anyone can open the Timetable page
-2. The timetable for the current week is shown (which the student is enrolled to)
-3. If a course button is pressed in the schedule, a course detail page is opened ('Viewing the course info' feature)
-4. If the 'Whole year' button is pressed, the schedule for the whole year is shown
+0. The student logs in
+1. The timetable for the current week shows each course's (which the student is enrolled into) lecture and practical time slots
+2. If a course button is pressed in the schedule, a course detail page is opened ('Viewing the course info' feature)
+3. If the 'Whole year' button is pressed, the schedule for the whole year is shown
 
 #### Responsibilities
 
-##### Timetable info responsibilities
-* Load the timetable info (based on who is viewing this)
-* Cache
+##### Business responsibilities
+* Load the student's enrolled courses
+* For each course, load the lecture and practical timeslots, also load their availability this week
+* Load the individual course info
+* Load the timetable for the whole year
 
-##### Course info responsibilities
-* Load the course info
-* Cache
+##### Presentation responsibilities
+* Display the timetable
+* Display the 'Whole year' button
+* Display the whole year timetable
 
 
 
 ### Feature: Viewing the course info (student)
 
-As a student/manager, I want to see the course info s.t. I know the course's details
+As a student, I want to see the course info s.t. I know the course's details
 
 #### Feature breakdown
 
-0. Anyone can view the course's details on the page
-1. A teacher can also press the 'Edit' button to open the new page where the course's info can be managed ('Course management' feature)
+0. The student logs in
+1. The student can view the course's teacher by pressing the link with teacher's full name
+2. If the student presses the 'Enroll' button, the student is redirected to the course enrollment page
+3. If the student presses the 'Exam dates' button, the student is taken to the exam dates page
+4. Pressing the 'View in timetable' button redirects the student to the course timetable page
+5. The course statistics are shown in the page
 
 #### Responsibilities
 
-##### Course editing responsibilities
-* Provide an edit form
-* Save the new info in the database
+##### Business responsibilities
+* Load the teacher's info page
+* Load the enrollment form
+* Load the course examination dates
+* Load the course timetable
+* Load the course statistics
+
+##### Presentation responsibilities
+* Display a teacher's link
+* Display an 'Enroll' button
+* Display an 'Exam dates' button
+* Display a 'View in timetable' button
+* Display the course statistics
+
+
+### Auxiliary feature: Viewing the course info (teacher)
 
 
 
@@ -69,7 +88,7 @@ As a student, I want to see the office hours of a determined teacher.
 -	The system must be capable of searching the required teacher in the database.
 -	The system must be able to load to the presentation layer the information of the database requested.
 -   The system should be able to apply the desired filters to accotate the search of teachers
--   
+-
 # Display of info responsibilities (Presentation layer responsabilities):
 -	The system must display the “teachers” button in the main menu
 -	The system must display all possible filters in the research menu
@@ -260,8 +279,8 @@ o	Should be to save as draft ↔ Submit ↔ Review/Approve ↔ Lock for term
 o	Should be to see preferences from previous terms
 # Validation & Guidance
 o	Detect overlaps/impossible rules
-o	
-o	
+o
+o
 # Audit & Privacy
 o	Track changes and approvals
 o	Role-scoped visibility (Teacher, Scheduler, Admin)
