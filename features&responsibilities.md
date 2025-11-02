@@ -58,16 +58,13 @@ As a student, I want to see the course info s.t. I know the course's details
 * Display the course statistics
 
 
-### Auxiliary feature: Viewing the course info (teacher)
-
-
 
 ### Feature: Viewing the teacher info – office hours (student)
 As a student, I want to see the office hours of a determined teacher.
 
-## Feature breakdown
+#### Feature breakdown
 0.	The student logins into the system
-1.	The system identifies the student and let him enter to the app in student mode.
+1.	The system identifies the student and lets him enter to the app in student mode.
 2.	“Teachers” button should be available in the central pannel
 3.	When the student presses the “Teachers” button, the system must redirect him to the teacher search window
 4.	The student enters the info about the teacher in the search pannel.
@@ -75,36 +72,27 @@ As a student, I want to see the office hours of a determined teacher.
 6.	The system loads the information of the database to the presentation layer of the student
 7.	When the desired teacher profile is selected, the system must redirect the student to the personal teacher window
 8.	There, many options should be available, “office hours” being one of them
-9.	When the student pushes the “office hours” option, the system must display the office hours schedule with varios options to view the schedule (day by day, week by week…)
+9.	When the student pushes the “office hours” option, the system must display the office hours schedule with various options to view the schedule (day by day, week by week…)
 
-## Responsabilities
+#### Responsibilities
 
-# Login and validation responsibilities:
+##### Login and validation responsibilities:
 -	The system must ensure that the user which is login is a student
 
-# Searching system responsibilities (technnical responsabilities):
--	The system must have all the information related to the teacher in its database.
--	The data base must be actualized to provide the latest information.
--	The system must be capable of searching the required teacher in the database.
--	The system must be able to load to the presentation layer the information of the database requested.
--   The system should be able to apply the desired filters to accotate the search of teachers
--
-# Display of info responsibilities (Presentation layer responsabilities):
--	The system must display the “teachers” button in the main menu
--	The system must display all possible filters in the research menu
--	The system must display all the requested teachers in the research menu.
--	The system must display the teachers’ information in the teacher page, along with the links to other sections
--	The system must provide links to minor specific information.
--	The system must display the schedule of the office hours in many different ways.
+##### Searching system responsibilities (technnical responsibilities):
+*	The system must have all the information related to the teacher in its database.
+*	The data base must be actualized to provide the latest information.
+*	The system must be capable of searching the required teacher in the database.
+*	The system must be able to load to the presentation layer the information of the database requested.
+* The system should be able to apply the desired filters to accotate the search of teachers
 
-## Auxiliar Feature: Viewing the teacher info – General information (student)
-As a student, I want to have the general information (e-mail, phone, office place…) at hand.
-## Auxiliar Feature: Viewing the student info – General information (anyone)
-As a system user, I want to have the general information (e-mail, course, photo) of every student registered in the system
-## Auxiliar Feature: Viewing the student info – Specific information (teacher)
-As a teacher, I want to have the specific information (ID number, grading, assigned tutor…) of the students registered in the system.
-## Auxiliar Feature: Viewing the teacher info – General Information (anyone)
-As a system user, I want to have the general information (e-mail, course, photo) of every teacher registered in the system
+##### Display of info responsibilities (Presentation layer responsibilities):
+*	The system must display the “teachers” button in the main menu
+*	The system must display all possible filters in the research menu
+*	The system must display all the requested teachers in the research menu.
+*	The system must display the teachers’ information in the teacher page, along with the links to other sections
+*	The system must provide links to minor specific information.
+*	The system must display the schedule of the office hours in many different ways.
 
 
 
@@ -121,7 +109,7 @@ As a teacher or scheduling committee, I want to view room's availability and cap
 2. System displays the room's details(building, capacity, type, floor).
 3. System shows a list of courses taking place in this room.
 4. Calendar view shows the room's schedule.
-5. Schedule comittee have a functionality to book the room for a specific time slot.
+5. Schedule committee have a functionality to book the room for a specific time slot.
 
 
 #### Responsibilities
@@ -148,7 +136,7 @@ As a teacher or scheduling committee, I want to view room's availability and cap
 
 As a teacher, I want to be able to change the classroom and the time at the Schedule if its neccesary, and the Student should be notified by this.
 
-As a schedulling committee, I want to be able to modify the schedule to resolve potential conflicts between the courses.
+As a scheduling committee, I want to be able to modify the schedule to resolve potential conflicts between the courses.
 
 #### Feature breakdown
 
@@ -164,17 +152,15 @@ As a schedulling committee, I want to be able to modify the schedule to resolve 
 
 #### Responsibilities
 
-#### Login and validation responsibilities
+##### Login and validation responsibilities
 * Authorize the user which performs the modification, either teacher or scheduling committee.
 * Validate the modification to prevent conflicts with relevant schedules of rooms and teachers.
-
 
 ##### Modification user interface responsibilities
 * Provide an interface for selecting and editing a schedule.
 * Suggest available rooms and time slots.
 * Allow users to provide a comment to the schedule modification.
 * Provide a preview of the schedule with the changes, before the final confirmation.
-
 
 ##### Notification responsibilities
 * Identify all users that are affected by the modification of the schedule.
@@ -218,20 +204,20 @@ As the committee, I should receive all the teachers' preferences and with that i
 * Record changes and actions for audit purposes.
 * Handle data synchronization if multiple committee members edit the timetable simultaneously.
 
-
 ##### Quality Responsibilities
 * Ensure timetable data integrity during creation and editing.
 * Maintain acceptable performance for the scheduling algorithm (avoid long computation times).
 * Log generation errors or failures for debugging and recovery.
 * Provide clear feedback in the UI when constraints are violated or conflicts remain.
 
-## Auxiliary features and responsibilities
 
-### Feature : Conflict Notification
+
+### Feature: Conflict Notification
 
 As a student, I want the system to show me any schedule conflicts in my registered courses and suggest the best possible arrangement, but I should only be able to view the conflicts, not change the timetable.
 
-### Feature Breakdown
+#### Feature Breakdown
+
 0. The student logs into the system and opens their personal timetable view.
 1. The system retrieves the student’s enrolled courses and the corresponding timetable from the database.
 2. The system automatically checks for overlapping lectures, time clashes, or room conflicts.
@@ -241,12 +227,12 @@ As a student, I want the system to show me any schedule conflicts in my register
 6. Optionally, the student can report a detected issue or conflict to the committee for further review.
 
 #### Responsibilities
+
 ##### Business Responsibilities
 * Analyze the student’s course schedule to identify conflicts.
 * Present detected conflicts clearly within the timetable view.
 * Suggest possible conflict-free alternatives for reference.
 * Allow students to report timetable issues to the committee.
-
 
 ##### Technical Responsibilities
 * Implement an efficient conflict detection algorithm based on lecture times and enrollments.
@@ -263,9 +249,12 @@ As a student, I want the system to show me any schedule conflicts in my register
 
 
 
-### Fearure: Teacher Preference
+### Feature: Teacher Preference
+
 As a teacher, I have a lot of lectures over the week which I need to reach so I should be able to tell the committee my personal preferences and the best schedule so they have them into account when they do the planning.
-## Feature Breakdown (capabilities → key behaviors)
+
+#### Feature Breakdown (capabilities → key behaviors)
+
 # Profile & Availability
 o	Should be able to efine weekly availability windows
 o	Should be able to mark blackout dates/periods (leave days, conferences, etc)
@@ -305,8 +294,10 @@ o	Role-scoped visibility (Teacher, Scheduler, Admin)
 •	Access logging and retention aligned with institutional policy
 
 
+
 ### Feature: Statistical Reports
-## Feature Breakdown (capabilities → key behaviors)
+
+#### Feature Breakdown (capabilities → key behaviors)
 # Resource Utilization
 o	Should be able to view room utilization by hour/day/building/term
 o	Should be able to view equipment usage saturation
@@ -338,9 +329,12 @@ o	Shoud be able to perform scheduled exports (CSV/XLSX) and snapshotting for com
 
 
 
+## Auxiliary features and responsibilities
+
 ### Feature: Viewing the timetable (teacher)
 
 As a teacher, I want to be able to see my timetable s.t. I know when and where the courses take place, and be able to perform scheduling, and also manage my preferences
+
 
 
 ### Feature: Viewing the timetable (scheduling committee)
@@ -348,9 +342,11 @@ As a teacher, I want to be able to see my timetable s.t. I know when and where t
 As a scheduling committee, I want to be able the timetable for all courses taking place s.t. I know when and where the courses take place, and be able to perform scheduling
 
 
+
 ### Feature: Viewing the timetable (manager)
 
 As a manager, I want to be able to see my timetable s.t. I know when and where the courses take place
+
 
 
 ### Feature: Viewing the course info (teacher)
@@ -358,11 +354,37 @@ As a manager, I want to be able to see my timetable s.t. I know when and where t
 As a teacher, I want to see the course info s.t. I know the course's details, and be able to manage them
 
 
+
 ### Feature: Viewing the course info (scheduling committee)
 
 As a scheduling committee, I want to see the course info s.t. I know the course's details
 
 
+
 ### Feature: Viewing the course info (manager)
 
 As a manager, I want to see the course info s.t. I know the course's details
+
+
+
+### Feature: Viewing the student info – General information (anyone)
+
+As a system user, I want to have the general information (e-mail, course, photo) of every student registered in the system
+
+
+
+### Feature: Viewing the student info – Specific information (teacher)
+
+As a teacher, I want to have the specific information (ID number, grading, assigned tutor…) of the students registered in the system.
+
+
+
+### Feature: Viewing the teacher info – General Information (anyone)
+
+As a system user, I want to have the general information (e-mail, course, photo) of every teacher registered in the system
+
+
+
+### Feature: Viewing the teacher info – General information (student)
+
+As a student, I want to have the general information (e-mail, phone, office place…) at hand.
