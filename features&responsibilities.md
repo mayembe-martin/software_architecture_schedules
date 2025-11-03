@@ -114,22 +114,25 @@ As a teacher or scheduling committee, I want to view room's availability and cap
 
 #### Responsibilities
 
-##### Room information responsibilities
-* Retrieve room data from the database.
-* Fetch and provide the room's booking schedule.
-* Cache frequently accessed room data.
-* Validate schedule view data with the database.
-* Provide API for other systems(for example enrollments) to query room availability and capacity.
+##### Presentation Responsibilities
+* Display room details
+* Display room's schedule
+* Search to find rooms
+* Filter room's (based on capacity or availability)
 
-##### Security responsibilities
-* Control access to sensitive information and room booking functionality based on user title.
-* Log view access, number of students in each room and how many courses per day are in each room for auditing and statistics.
+##### Business/Application Responsibilities
+* Fetch and provide the room's booking schedule
+* Validate schedule data with the database
+* Provide API for other systems(e.g. enrollments)
+* Access to sensitive information based on user title
+* Room booking functionality based on user title
 
-##### Presentation responsibilities
-* Display room details in a structured way.
-* Display the room's schedule in a weekly calendar format.
-* Search and filter functionality to find rooms based on capacity or availability.
-* Ensure data integrity with the database.
+##### Persistence/Infrastructure Responsibilities
+* Retrieve data from the database
+* Cache frequently accessed room data
+* Log view access
+* Log number of students in each room
+* Log number of courses per day in each room
 
 
 ### Feature: Schedule modification
@@ -152,25 +155,25 @@ As a scheduling committee, I want to be able to modify the schedule to resolve p
 
 #### Responsibilities
 
-##### Login and validation responsibilities
-* Authorize the user which performs the modification, either teacher or scheduling committee.
-* Validate the modification to prevent conflicts with relevant schedules of rooms and teachers.
+##### Presentation Responsibilities
+* Interface for selecting schedule
+* Interface for editing schedule
+* Commenting on the schedule modification
+* Preview of the changed schedule
 
-##### Modification user interface responsibilities
-* Provide an interface for selecting and editing a schedule.
-* Suggest available rooms and time slots.
-* Allow users to provide a comment to the schedule modification.
-* Provide a preview of the schedule with the changes, before the final confirmation.
+##### Business/Application Responsibilities
+* User authorization which performs modification(teacher, student or scheduling committee)
+* Validate the modification to prevent conflicts
+* Suggest available rooms
+* Suggest available time slots
+* Identify users affected by the modification of the schedule
 
-##### Notification responsibilities
-* Identify all users that are affected by the modification of the schedule.
-* Generate and send notifications using each student's email.
-* Log any notification issues.
-
-##### Data management responsibilities
-* Execute schedule update as a database transaction
-* Provide audit log of all changes.
-* Implement a concurrency control to prevent data corruption, when multiple users attempt to modify the same schedule.
+##### Persistence/Infrastructure Responsibilities
+* Generate and send notifications
+* Log any notification issues
+* Execute schedule update in the database
+* Audit log of all changes
+* Concurrency control
 
 
 ### Feature: Creating timetable
@@ -394,3 +397,4 @@ As a system user, I want to have the general information (e-mail, course, photo)
 ### Feature: Viewing the teacher info – General information (student)
 
 As a student, I want to have the general information (e-mail, phone, office place…) at hand.
+
