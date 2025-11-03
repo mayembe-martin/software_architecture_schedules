@@ -309,24 +309,30 @@ o	Shoud be able to perform scheduled exports (CSV/XLSX) and snapshotting for com
 
 ## System Responsibilities
 # Presentation/UI
-•	Show KPI tiles (at-a-glance), traffic-light status (green/amber/red)
-•	show Room/slot heatmaps; trend charts; sortable violation tables
-•	Show quick filters and saved views; export buttons
-•	Show a comparison view (current vs previous version/term)
+1. Show KPI (Key Point Indicators) tiles (at-a-glance), traffic-light status (green/amber/red)
+2. show Room/slot heatmaps; trend charts; sortable violation tables
+3. Show quick filters and saved views
+4. export buttons
+5. Show a comparison view (current vs previous version/term)
 # Application/Business
-•	Compute KPI progress statistics
-•	Compute room usage statistics
-•	Filter data according to user input
-•	Export statistics page to various formats (pdf, excel, word)
-•	Compute comparisons between current and previous terms
+6. Compute KPI progress statistics
+7. Compute room usage statistics
+8. Filter data according to user input
+9. Export statistics page to various formats (pdf, excel, word)
+10. Compute comparisons between current and previous terms
 # Persistence
-•	Retrieve  teacher perfomance data from the database
-•	Retrieve room usage data from the database
-•	Retrieve teacher performance data from previous and current term
-•	Filter data according to user input
-# Integration
-•	Optional hooks to BI tools (read-only)
+11. Retrieve  teacher perfomance data from the database
+12. Retrieve room usage data from the database
+13. Retrieve teacher performance data from previous and current term
+14. Filter data according to user input
 
+
+
+## Components
+•	Database connection service (11, 12, 13)
+•	Search/Filtering service (3, 8, 14)
+•	Data Export service (4, 9)
+•	Statistics Service (1, 2, 5, 6, 10)
 
 
 ## Auxiliary features and responsibilities
