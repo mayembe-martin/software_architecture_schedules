@@ -63,36 +63,41 @@ As a student, I want to see the course info s.t. I know the course's details
 As a student, I want to see the office hours of a determined teacher.
 
 #### Feature breakdown
-0.	The student logins into the system
-1.	The system identifies the student and lets him enter to the app in student mode.
-2.	“Teachers” button should be available in the central pannel
-3.	When the student presses the “Teachers” button, the system must redirect him to the teacher search window
-4.	The student enters the info about the teacher in the search pannel.
-5.	The system loads the information to the database in order to find the desired teacher profile
-6.	The system loads the information of the database to the presentation layer of the student
-7.	When the desired teacher profile is selected, the system must redirect the student to the personal teacher window
-8.	There, many options should be available, “office hours” being one of them
-9.	When the student pushes the “office hours” option, the system must display the office hours schedule with various options to view the schedule (day by day, week by week…)
+0.	The student logs into the system using valid credentials.
+1.  The system verifies the student’s identity and confirms that their role is student.
+2.  The system displays the main dashboard in student mode, including the “Teachers” button.
+3.  The student clicks the “Teachers” button.
+4.  The system navigates the student to the teacher search page, showing available search filters (name, department, subject, etc.).
+5.  The student enters one or more search criteria and submits the search request.
+6.  The system forwards the query to the backend search service and retrieves a list of matching teachers.
+7.  The system displays the teacher results list to the student.
+8.  The student selects a specific teacher from the results.
+9.  The system opens the teacher’s profile page, which includes several options, one of them being “Office Hours”.
+10. The student clicks the “Office Hours” option.
+11. The system requests the teacher’s latest office hours from the scheduling service.
+12. The system displays the office-hours schedule to the student in the chosen format (daily view, weekly view, calendar view, etc.).
+13. The interaction ends, and the student can choose to return, browse more details, or take additional actions if available (e.g., booking a slot).
 
 #### Responsibilities
 
-##### Login and validation responsibilities:
--	The system must ensure that the user which is login is a student
+##### Validation responsibilities:
+*	Ensure that the user which is login is a student
+*   Ensure that the input data (filters, dates, subjects…) is valid.
 
-##### Searching system responsibilities (technnical responsibilities):
-*	The system must have all the information related to the teacher in its database.
-*	The data base must be actualized to provide the latest information.
-*	The system must be capable of searching the required teacher in the database.
-*	The system must be able to load to the presentation layer the information of the database requested.
-* The system should be able to apply the desired filters to accotate the search of teachers
+##### Searching system responsibilities:
+*   Apply search filters (subject, date, department, availability…).
+*   Query the database for matching professors.
+*   Ensure that the returned professor data is complete and correct.
+*   Handle cases with no results (error messages, suggestions…).
+*   Handle cases with multiple results (sorting, prioritizing…).
 
 ##### Display of info responsibilities (Presentation layer responsibilities):
-*	The system must display the “teachers” button in the main menu
-*	The system must display all possible filters in the research menu
-*	The system must display all the requested teachers in the research menu.
-*	The system must display the teachers’ information in the teacher page, along with the links to other sections
-*	The system must provide links to minor specific information.
-*	The system must display the schedule of the office hours in many different ways.
+*   Display available search filters and options clearly in the searching system pannel.
+*   Show search results in different formats (list, calendar, weekly view…).
+*   Display professor info (name, office place, number...)
+*   Present step-by-step options throughout the booking workflow.
+*   Provide guidance and explanations for each step.
+*   Display error messages and system feedback to the user.
 
 
 
