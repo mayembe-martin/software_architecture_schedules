@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.8 Chrome/140.0.7339.240 Electron/38.4.0 Safari/537.36" version="28.2.8">
   <diagram name="Page-1" id="kCHWuDn0eUDZpUQV8NR7">
-    <mxGraphModel dx="1042" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1582" dy="940" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -68,7 +68,7 @@
           <mxGeometry x="1600" y="25" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="r8Tb9GQri-7fWSF9KDfQ-13" value="" style="swimlane;startSize=0;" parent="1" vertex="1">
-          <mxGeometry x="10" y="190" width="3110" height="80" as="geometry" />
+          <mxGeometry x="10" y="190" width="3300" height="80" as="geometry" />
         </mxCell>
         <mxCell id="r8Tb9GQri-7fWSF9KDfQ-29" value="" style="ellipse;whiteSpace=wrap;html=1;" parent="r8Tb9GQri-7fWSF9KDfQ-13" vertex="1">
           <mxGeometry x="295" width="120" height="80" as="geometry" />
@@ -107,7 +107,7 @@
           <mxGeometry x="1540" y="25" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="r8Tb9GQri-7fWSF9KDfQ-18" value="" style="swimlane;startSize=0;" parent="1" vertex="1">
-          <mxGeometry x="10" y="330" width="3040" height="80" as="geometry" />
+          <mxGeometry x="10" y="330" width="3300" height="100" as="geometry" />
         </mxCell>
         <mxCell id="r8Tb9GQri-7fWSF9KDfQ-40" value="" style="ellipse;whiteSpace=wrap;html=1;" parent="r8Tb9GQri-7fWSF9KDfQ-18" vertex="1">
           <mxGeometry x="440" width="120" height="80" as="geometry" />
@@ -233,61 +233,112 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="7BcVGQ7gQOAI_kCcIt_0-3" value="&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Searching System Interface" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1940" y="50" width="400" height="100" as="geometry" />
+          <mxGeometry x="1940" y="50" width="400" height="120" as="geometry" />
         </mxCell>
         <mxCell id="7BcVGQ7gQOAI_kCcIt_0-5" value="Display searching system results&amp;nbsp;&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;" parent="7BcVGQ7gQOAI_kCcIt_0-3" vertex="1">
           <mxGeometry x="140" y="20" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-13" value="Searching System Request Validator" style="swimlane;whiteSpace=wrap;html=1;" parent="7BcVGQ7gQOAI_kCcIt_0-3" vertex="1">
-          <mxGeometry x="260" y="120" width="360" height="120" as="geometry" />
-        </mxCell>
         <mxCell id="7BcVGQ7gQOAI_kCcIt_0-4" value="Display searching system options" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1950" y="70" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-10" value="Searching System Request Manager" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1930" y="170" width="270" height="120" as="geometry" />
+        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-14" value="Check&amp;nbsp; user permissions to use the system" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2030" y="190" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-11" value="Process request of search" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1940" y="190" width="120" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-12" value="Push to upper layer the results of the research&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="2070" y="190" width="120" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-14" value="Process request of search" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="2210" y="190" width="120" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-1" value="Collect the user&#39;s input&amp;nbsp;&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-1" value="Collect the user&#39;s input&amp;nbsp;&amp;nbsp;" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="2210" y="70" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-5" value="Teacher pannel interface" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-5" value="Teacher pannel interface" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="2340" y="50" width="270" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-8" value="Display teacher&#39;s general information" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="9TdAOGW6dStdfVAjnv_z-5">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-8" value="Display teacher&#39;s general information" style="ellipse;whiteSpace=wrap;html=1;" parent="9TdAOGW6dStdfVAjnv_z-5" vertex="1">
           <mxGeometry x="10" y="20" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-7" value="Display office hours shedule" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-7" value="Display office hours shedule" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="2480" y="70" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-11" value="Auxiliar Interface System" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-11" value="Auxiliar Interface System" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" parent="1" vertex="1">
           <mxGeometry x="2610" y="50" width="400" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-13" value="Display error messages when needed" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-13" value="Display error messages when needed" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="2620" y="70" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-14" value="Provide explanation for each step of the proccess" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-14" value="Provide explanation for each step of the proccess" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="2750" y="70" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-15" value="Display error messages when needed" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-15" value="Display error messages when needed" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="2880" y="70" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-16" value="Interface Manager" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-16" value="Interface Manager" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" parent="1" vertex="1">
           <mxGeometry x="3010" y="50" width="270" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-17" value="Make input validations" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-17" value="Make input validations" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="3020" y="70" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="9TdAOGW6dStdfVAjnv_z-18" value="Send the request to the bussines layer" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9TdAOGW6dStdfVAjnv_z-18" value="Send the request to the bussines layer" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="3150" y="70" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-13" value="Validation System" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2020" y="170" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-1" value="Validate the request logic" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="7BcVGQ7gQOAI_kCcIt_0-13">
+          <mxGeometry x="140" y="20" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-10" value="Searching System Request Manager" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2290" y="170" width="660" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-11" value="Manage no results cases" style="ellipse;whiteSpace=wrap;html=1;" parent="7BcVGQ7gQOAI_kCcIt_0-10" vertex="1">
+          <mxGeometry x="10" y="20" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-2" value="Pul request from data layer" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="7BcVGQ7gQOAI_kCcIt_0-10">
+          <mxGeometry x="270" y="20" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7BcVGQ7gQOAI_kCcIt_0-12" value="Manage multiple results cases" style="ellipse;whiteSpace=wrap;html=1;" parent="7BcVGQ7gQOAI_kCcIt_0-10" vertex="1">
+          <mxGeometry x="140" y="20" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-8" value="Apply the requested filters" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="7BcVGQ7gQOAI_kCcIt_0-10">
+          <mxGeometry x="530" y="20" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-3" value="Push the request to presentation layer" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2690" y="190" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.083;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="7BcVGQ7gQOAI_kCcIt_0-10" target="7BcVGQ7gQOAI_kCcIt_0-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-10" value="Auxiliar Manager System" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2950" y="170" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-11" value="" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="nYVqEjdVtZw_vFv6fI-B-10">
+          <mxGeometry x="30" y="20" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-12" value="DataBase Manager System" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2080" y="305" width="400" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-17" value="Check database using the filters receibed from bussinness layer" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2090" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-18" value="Return data to bussinness layer" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2220" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-19" value="Data Validator System" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2480" y="305" width="270" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-20" value="Check the integrity and consistency of the data" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="nYVqEjdVtZw_vFv6fI-B-19">
+          <mxGeometry x="10" y="35" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-21" value="Access the user&#39;s data for validation" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2620" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-22" value="Access to teachers&#39; office hours schedule" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2350" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-23" value="Auxiliar Manager System" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2750" y="305" width="270" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-24" value="Manage possible database errors&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="nYVqEjdVtZw_vFv6fI-B-23">
+          <mxGeometry x="10" y="32.5" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nYVqEjdVtZw_vFv6fI-B-25" value="Defend database against possible malicious attacks&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2890" y="340" width="120" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
