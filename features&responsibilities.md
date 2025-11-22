@@ -8,24 +8,37 @@ As a student, I want to be able to see my timetable s.t. I know when and where t
 
 #### Feature breakdown
 
-0. The student logs in
-1. The timetable for the current week shows each course's (which the student is enrolled into) lecture and practical time slots
-2. If a course button is pressed in the schedule, a course detail page is opened ('Viewing the course info' feature)
-3. If the 'Whole year' button is pressed, the schedule for the whole year is shown
+0. The student presses the 'Timetable' button in the main dashboard
+1. The system loads the timetable information for the current week
+2. The timetable for the current week shows each course's (which the student is enrolled into) lecture and practical time slots
+3. A course button is pressed in the schedule:
+  a. The system loads the course detail page ('Viewing the course info' feature)
+  b. The course detail page is shown
+4. If the 'Whole year' button is pressed:
+  a. The system loads the schedule for the whole year
+  b. The whole year schedule page is shown
+  c. The button is now labeled as 'Current week', by pressing it, the student reverses to the current week timetable
 
 #### Responsibilities
 
 ##### Business responsibilities
-* Load the student's enrolled courses
-* For each course, load the lecture and practical timeslots, also load their availability this week
-* Load the individual course info
-* Load the timetable for the whole year
+* Switch the timetable mode
+* Request the current week timetable info
+* Request the whole year timetable info
+* Request the course's detail page
+* Request the student's enrolled courses info
+* Request the course's lecture and practical timeslot info
 
-##### Presentation responsibilities
-* Display the timetable
-* Display the 'Whole year' button
+##### Technical responsibilities
+* Display the 'Timetable' button in the main dashboard
+* Display the current week timetable
 * Display the whole year timetable
-
+* Display the lecture/practical time slot
+* Display the 'Whole year'/'Current week' button
+* Load the student's enrolled courses info
+* Load the course's lecture and practical timeslot info
+* Load the timetable for the current week
+* Load the timetable for the whole year
 
 
 ### Feature: Viewing the course info (student)
