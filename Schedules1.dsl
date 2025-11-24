@@ -83,12 +83,11 @@ workspace "University Scheduling System" "A comprehensive university course sche
             }
             
             statisticsReportContainer = container "Statistical Reports Service" "Generates reports and analytics on resource utilization" "Spring Boot" {
-                reportController = component "Report Controller" "Handles report generation requests"
-                kpiCalculator = component "KPI Calculator" "Computes key performance indicators"
-                utilizationAnalyzer = component "Utilization Analyzer" "Analyzes room and teacher utilization"
-                filteringService = component "Filtering Service" "Applies filters to report data"
-                exportService = component "Export Service" "Exports reports to various formats"
-                comparisonEngine = component "Comparison Engine" "Compares current vs previous terms"
+                statisticsUI = component "Statistics UI" "Displays KPI dashboard, export buttons, trend charts/heatmaps, and filter options" "React Components"
+                dataPreparation = component "Data Preparation" "Pre-aggregates metrics for dashboard, aggregates data from user queries, and formats data for exports" "Java Service"
+                auditLogger = component "Audit Logger" "Logs user searches and report requests" "Java Service"
+                cache = component "Cache" "Caches user searches and frequently accessed statistics" "Redis"
+                databaseConnector = component "Database Connector" "Retrieves data from the database and enrollments system" "JDBC/REST Client"
             }
             
             studentInfoContainer = container "Student Information Service" "Manages student profiles and information access" "Spring Boot" {
@@ -197,6 +196,22 @@ workspace "University Scheduling System" "A comprehensive university course sche
         timetableCreationContainer -> auditLogService "Logs timetable changes" "REST"
         teacherPreferenceContainer -> auditLogService "Logs preference changes" "REST"
         roomInfoContainer -> auditLogService "Logs room bookings" "REST"
+        
+        # Component Relationships - Statistics Report Container (L3)
+        statisticsUI -> dataPreparation "Requests aggregated data" "REST/JSON"
+        statisticsUI -> cache "Checks for cached results" "Redis Protocol"
+        
+        dataPreparation -> databaseConnector "Requests raw data" "Method Call"
+        dataPreparation -> cache "Stores aggregated results" "Redis Protocol"
+        dataPreparation -> auditLogger "Logs data aggregation operations" "Method Call"
+        
+        cache -> auditLogger "Logs cache hits/misses" "Method Call"
+        
+        databaseConnector -> database "Queries statistics data" "SQL"
+        databaseConnector -> enrollmentSystem "Fetches enrollment data" "REST API"
+        databaseConnector -> auditLogger "Logs database queries" "Method Call"
+        
+        auditLogger -> auditLogService "Persists audit logs" "REST"
         
         # Deployment Environment - Development
         deploymentEnvironment "Development" {
