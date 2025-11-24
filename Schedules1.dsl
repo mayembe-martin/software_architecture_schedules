@@ -9,27 +9,107 @@ workspace "University Scheduling System" "A comprehensive university course sche
         
         # Software Systems
         universitySchedulingSystem = softwareSystem "University Scheduling System" "Manages timetables, rooms, preferences and notifications" {
+            
+            # Frontend Container
             webapp = container "Web Application" "Delivers scheduling functionality to users" "React / Angular" {
-                studentUI = component "Student Interface" "Allows students to view timetables and course information"
-                teacherUI = component "Teacher Interface" "Allows teachers to manage preferences and view schedules"
-                schedulingUI = component "Scheduling Interface" "Allows committee to create and manage timetables"
-                adminUI = component "Admin Interface" "Provides reports and system overview"
+                tags "Web Browser"
             }
             
-            api = container "API Application" "Provides scheduling functionality via REST API" "Spring Boot / Node.js" {
-                authController = component "Authentication Controller" "Handles user authentication"
-                timetableController = component "Timetable Controller" "Manages timetable operations"
-                roomController = component "Room Controller" "Manages room allocation"
+            # Feature-based Containers
+            
+            timetableViewingContainer = container "Timetable Viewing Service" "Handles timetable display for all user types (current week, whole year views)" "Spring Boot" {
+                timetableController = component "Timetable Controller" "Handles timetable requests and switches between views"
+                weeklyViewService = component "Weekly View Service" "Loads and formats current week timetable"
+                yearlyViewService = component "Yearly View Service" "Loads and formats whole year timetable"
+                enrollmentIntegration = component "Enrollment Integration" "Fetches student's enrolled courses"
+                timeslotService = component "Timeslot Service" "Retrieves lecture and practical timeslot information"
+            }
+            
+            courseInfoContainer = container "Course Information Service" "Manages course details, teacher info, exam dates, and statistics" "Spring Boot" {
+                courseController = component "Course Controller" "Handles course information requests"
+                courseDetailService = component "Course Detail Service" "Retrieves and formats course details"
+                teacherInfoService = component "Teacher Info Service" "Provides teacher information and links"
+                examDateService = component "Exam Date Service" "Manages course examination dates"
+                courseStatisticsService = component "Course Statistics Service" "Computes and displays course statistics"
+            }
+            
+            teacherInfoContainer = container "Teacher Information Service" "Manages teacher profiles, office hours, and availability" "Spring Boot" {
+                teacherController = component "Teacher Controller" "Handles teacher information requests"
+                teacherSearchService = component "Teacher Search Service" "Searches teachers by various criteria"
+                officeHoursService = component "Office Hours Service" "Manages and displays teacher office hours"
+                teacherProfileService = component "Teacher Profile Service" "Manages teacher profile information"
+                validationService = component "Validation Service" "Validates user roles and input data"
+            }
+            
+            roomInfoContainer = container "Room Information Service" "Manages room details, availability, and booking" "Spring Boot" {
+                roomController = component "Room Controller" "Handles room information requests"
+                roomDetailService = component "Room Detail Service" "Retrieves room details (location, capacity, type)"
+                roomScheduleService = component "Room Schedule Service" "Manages room booking schedule"
+                roomBookingService = component "Room Booking Service" "Handles room booking for scheduling committee"
+                roomSearchService = component "Room Search Service" "Searches and filters rooms"
+            }
+            
+            scheduleModificationContainer = container "Schedule Modification Service" "Handles schedule changes and conflict detection" "Spring Boot" {
+                modificationController = component "Modification Controller" "Handles schedule modification requests"
+                conflictDetectionService = component "Conflict Detection Service" "Analyzes schedule changes for conflicts"
+                scheduleEditorService = component "Schedule Editor Service" "Manages schedule editing operations"
+                authorizationService = component "Authorization Service" "Validates user permissions for modifications"
+                suggestionEngine = component "Suggestion Engine" "Suggests available rooms and time slots"
+            }
+            
+            timetableCreationContainer = container "Timetable Creation Service" "Handles automated and manual timetable generation" "Spring Boot" {
+                creationController = component "Timetable Creation Controller" "Manages timetable creation workflow"
+                preferenceCollector = component "Preference Collector" "Gathers teacher preferences"
+                schedulingAlgorithm = component "Scheduling Algorithm" "Generates initial timetable proposal"
+                manualAdjustmentService = component "Manual Adjustment Service" "Allows committee to manually adjust timetable"
+                constraintValidator = component "Constraint Validator" "Validates scheduling constraints"
+                timetablePublisher = component "Timetable Publisher" "Publishes finalized timetable"
+            }
+            
+            conflictNotificationContainer = container "Conflict Notification Service" "Detects and displays schedule conflicts for students" "Spring Boot" {
+                conflictController = component "Conflict Controller" "Handles conflict detection requests"
+                conflictAnalyzer = component "Conflict Analyzer" "Identifies overlapping lectures and time clashes"
+                alternativeGenerator = component "Alternative Generator" "Suggests conflict-free alternatives"
+                issueReporter = component "Issue Reporter" "Allows students to report conflicts"
+            }
+            
+            teacherPreferenceContainer = container "Teacher Preference Service" "Manages teacher scheduling preferences and constraints" "Spring Boot" {
+                preferenceController = component "Preference Controller" "Handles teacher preference submissions"
+                availabilityManager = component "Availability Manager" "Manages weekly availability and blackout dates"
+                preferenceEditor = component "Preference Editor" "Provides interface for editing preferences"
+                preferenceValidator = component "Preference Validator" "Validates preferences for conflicts and policies"
+                versioningService = component "Versioning Service" "Manages preference versions and history"
+                workflowEngine = component "Workflow Engine" "Manages draft/submit/approve lifecycle"
+            }
+            
+            statisticsReportContainer = container "Statistical Reports Service" "Generates reports and analytics on resource utilization" "Spring Boot" {
+                reportController = component "Report Controller" "Handles report generation requests"
+                kpiCalculator = component "KPI Calculator" "Computes key performance indicators"
+                utilizationAnalyzer = component "Utilization Analyzer" "Analyzes room and teacher utilization"
+                filteringService = component "Filtering Service" "Applies filters to report data"
+                exportService = component "Export Service" "Exports reports to various formats"
+                comparisonEngine = component "Comparison Engine" "Compares current vs previous terms"
+            }
+            
+            studentInfoContainer = container "Student Information Service" "Manages student profiles and information access" "Spring Boot" {
+                studentController = component "Student Controller" "Handles student information requests"
+                studentProfileService = component "Student Profile Service" "Manages general student information"
+                studentDetailsService = component "Student Details Service" "Manages specific student details for teachers"
+            }
+            
+            notificationContainer = container "Notification Service" "Sends notifications to users about schedule changes" "Java / Python" {
                 notificationController = component "Notification Controller" "Handles notification dispatch"
+                emailProcessor = component "Email Processor" "Sends email notifications"
+                calendarIntegration = component "Calendar Integration" "Syncs with external calendars"
+                notificationQueue = component "Notification Queue" "Queues notifications for processing"
             }
             
-            database = container "Database" "Stores timetables, rooms, preferences, user data" "PostgreSQL / MySQL" {
+            database = container "Database" "Stores timetables, rooms, preferences, user data, courses, enrollments" "PostgreSQL" {
                 tags "Database"
             }
             
-            notificationService = container "Notification Service" "Processes and sends notifications" "Java / Python" {
-                emailProcessor = component "Email Processor" "Sends email notifications"
-                integrationHandler = component "Calendar Integration Handler" "Syncs with external calendars"
+            auditLogService = container "Audit Log Service" "Records all system actions and changes for compliance" "Spring Boot" {
+                tags "Infrastructure"
             }
         }
         
@@ -46,7 +126,7 @@ workspace "University Scheduling System" "A comprehensive university course sche
             tags "External System"
         }
         
-        sisLdap = softwareSystem "University SIS / LDAP" "Source of users and enrollment data" {
+        sisLdap = softwareSystem "University SIS / LDAP" "Source of users and user data" {
             tags "External System"
         }
         
@@ -64,40 +144,85 @@ workspace "University Scheduling System" "A comprehensive university course sche
         universitySchedulingSystem -> authProvider "Authenticates users"
         universitySchedulingSystem -> externalCalendar "Syncs events"
         universitySchedulingSystem -> emailProvider "Sends notifications"
-        universitySchedulingSystem -> sisLdap "Loads users and enrollments"
+        universitySchedulingSystem -> sisLdap "Loads user data"
         universitySchedulingSystem -> enrollmentSystem "Retrieves student enrollments and course registrations"
         
-        # Container Relationships
-        student -> webapp "Views timetables using" "HTTPS"
-        teacher -> webapp "Manages preferences using" "HTTPS"
-        schedulingCommittee -> webapp "Creates timetables using" "HTTPS"
+        # Container Relationships - Users to Containers
+        student -> webapp "Views timetables and course info using" "HTTPS"
+        teacher -> webapp "Manages preferences and views schedule using" "HTTPS"
+        schedulingCommittee -> webapp "Creates and modifies timetables using" "HTTPS"
         managerAdmin -> webapp "Views reports using" "HTTPS"
         
-        webapp -> api "Makes API calls to" "JSON/HTTPS"
-        api -> database "Reads from and writes to" "JDBC/SQL"
-        api -> notificationService "Triggers notifications" "Message Queue"
+        # Container Relationships - Web App to Feature Services
+        webapp -> timetableViewingContainer "Requests timetable data" "REST/JSON"
+        webapp -> courseInfoContainer "Requests course information" "REST/JSON"
+        webapp -> teacherInfoContainer "Requests teacher information" "REST/JSON"
+        webapp -> roomInfoContainer "Requests room information" "REST/JSON"
+        webapp -> scheduleModificationContainer "Submits schedule changes" "REST/JSON"
+        webapp -> timetableCreationContainer "Manages timetable creation" "REST/JSON"
+        webapp -> conflictNotificationContainer "Checks for conflicts" "REST/JSON"
+        webapp -> teacherPreferenceContainer "Manages preferences" "REST/JSON"
+        webapp -> statisticsReportContainer "Requests reports" "REST/JSON"
+        webapp -> studentInfoContainer "Requests student information" "REST/JSON"
         
-        api -> authProvider "Authenticates via" "OAuth/LDAP"
-        api -> sisLdap "Fetches data from" "LDAP/REST"
-        api -> enrollmentSystem "Queries enrollments from" "REST API"
+        # Container Relationships - Feature Services to Database
+        timetableViewingContainer -> database "Reads timetable data" "JDBC"
+        courseInfoContainer -> database "Reads course data" "JDBC"
+        teacherInfoContainer -> database "Reads teacher data" "JDBC"
+        roomInfoContainer -> database "Reads/writes room data" "JDBC"
+        scheduleModificationContainer -> database "Updates schedule data" "JDBC"
+        timetableCreationContainer -> database "Writes timetable data" "JDBC"
+        conflictNotificationContainer -> database "Reads enrollment and schedule data" "JDBC"
+        teacherPreferenceContainer -> database "Reads/writes preference data" "JDBC"
+        statisticsReportContainer -> database "Reads analytics data" "JDBC"
+        studentInfoContainer -> database "Reads student data" "JDBC"
         
-        notificationService -> emailProvider "Sends emails via" "SMTP"
-        notificationService -> externalCalendar "Syncs calendar events" "CalDAV/REST"
+        # Container Relationships - Feature Services to External Systems
+        timetableViewingContainer -> enrollmentSystem "Fetches enrolled courses" "REST"
+        scheduleModificationContainer -> notificationContainer "Triggers notifications" "Message Queue"
+        timetableCreationContainer -> notificationContainer "Triggers notifications" "Message Queue"
+        
+        notificationContainer -> emailProvider "Sends emails" "SMTP"
+        notificationContainer -> externalCalendar "Syncs calendar events" "CalDAV/REST"
+        
+        teacherInfoContainer -> authProvider "Validates user roles" "OAuth/LDAP"
+        scheduleModificationContainer -> authProvider "Validates permissions" "OAuth/LDAP"
+        roomInfoContainer -> authProvider "Validates booking permissions" "OAuth/LDAP"
+        
+        studentInfoContainer -> sisLdap "Fetches student data" "LDAP"
+        teacherInfoContainer -> sisLdap "Fetches teacher data" "LDAP"
+        
+        # Audit logging
+        scheduleModificationContainer -> auditLogService "Logs modifications" "REST"
+        timetableCreationContainer -> auditLogService "Logs timetable changes" "REST"
+        teacherPreferenceContainer -> auditLogService "Logs preference changes" "REST"
+        roomInfoContainer -> auditLogService "Logs room bookings" "REST"
         
         # Deployment Environment - Development
         deploymentEnvironment "Development" {
             deploymentNode "Developer Workstation" "Microsoft Windows 10, macOS, or Linux" {
                 deploymentNode "Docker Desktop" "Docker Engine" {
-                    containerInstance webapp
-                    containerInstance api
-                    containerInstance database
-                    containerInstance notificationService
+                    webContainer = containerInstance webapp
+                    timetableContainer = containerInstance timetableViewingContainer
+                    courseContainer = containerInstance courseInfoContainer
+                    teacherContainer = containerInstance teacherInfoContainer
+                    roomContainer = containerInstance roomInfoContainer
+                    modificationContainer = containerInstance scheduleModificationContainer
+                    creationContainer = containerInstance timetableCreationContainer
+                    conflictContainer = containerInstance conflictNotificationContainer
+                    preferenceContainer = containerInstance teacherPreferenceContainer
+                    statsContainer = containerInstance statisticsReportContainer
+                    studentContainer = containerInstance studentInfoContainer
+                    notifContainer = containerInstance notificationContainer
+                    dbContainer = containerInstance database
+                    auditContainer = containerInstance auditLogService
                 }
             }
             
             deploymentNode "Local Services" {
                 softwareSystemInstance authProvider
                 softwareSystemInstance emailProvider
+                softwareSystemInstance enrollmentSystem
             }
         }
         
@@ -111,8 +236,23 @@ workspace "University Scheduling System" "A comprehensive university course sche
                             containerInstance webapp
                         }
                         
-                        appServer1 = deploymentNode "EC2 - Application Server 1" "Amazon EC2 - t3.xlarge" {
-                            containerInstance api
+                        featureServers1 = deploymentNode "EC2 - Feature Services Cluster 1" "Amazon EC2 - t3.xlarge" {
+                            containerInstance timetableViewingContainer
+                            containerInstance courseInfoContainer
+                            containerInstance teacherInfoContainer
+                            containerInstance roomInfoContainer
+                        }
+                        
+                        modificationServers1 = deploymentNode "EC2 - Modification Services 1" "Amazon EC2 - t3.xlarge" {
+                            containerInstance scheduleModificationContainer
+                            containerInstance timetableCreationContainer
+                            containerInstance conflictNotificationContainer
+                        }
+                        
+                        preferenceServers1 = deploymentNode "EC2 - Preference & Stats Services 1" "Amazon EC2 - t3.large" {
+                            containerInstance teacherPreferenceContainer
+                            containerInstance statisticsReportContainer
+                            containerInstance studentInfoContainer
                         }
                     }
                     
@@ -121,8 +261,23 @@ workspace "University Scheduling System" "A comprehensive university course sche
                             containerInstance webapp
                         }
                         
-                        appServer2 = deploymentNode "EC2 - Application Server 2" "Amazon EC2 - t3.xlarge" {
-                            containerInstance api
+                        featureServers2 = deploymentNode "EC2 - Feature Services Cluster 2" "Amazon EC2 - t3.xlarge" {
+                            containerInstance timetableViewingContainer
+                            containerInstance courseInfoContainer
+                            containerInstance teacherInfoContainer
+                            containerInstance roomInfoContainer
+                        }
+                        
+                        modificationServers2 = deploymentNode "EC2 - Modification Services 2" "Amazon EC2 - t3.xlarge" {
+                            containerInstance scheduleModificationContainer
+                            containerInstance timetableCreationContainer
+                            containerInstance conflictNotificationContainer
+                        }
+                        
+                        preferenceServers2 = deploymentNode "EC2 - Preference & Stats Services 2" "Amazon EC2 - t3.large" {
+                            containerInstance teacherPreferenceContainer
+                            containerInstance statisticsReportContainer
+                            containerInstance studentInfoContainer
                         }
                     }
                     
@@ -141,7 +296,11 @@ workspace "University Scheduling System" "A comprehensive university course sche
                     }
                     
                     notificationNode = deploymentNode "EC2 - Notification Service" "Amazon EC2 - t3.medium" {
-                        containerInstance notificationService
+                        containerInstance notificationContainer
+                    }
+                    
+                    auditNode = deploymentNode "EC2 - Audit Service" "Amazon EC2 - t3.small" {
+                        containerInstance auditLogService
                     }
                     
                     queueService = deploymentNode "Amazon SQS" "Message Queue Service" {
@@ -171,12 +330,57 @@ workspace "University Scheduling System" "A comprehensive university course sche
             autoLayout
         }
         
-        component webapp "WebAppComponents" {
+        component timetableViewingContainer "TimetableViewingComponents" {
             include *
             autoLayout
         }
         
-        component api "APIComponents" {
+        component courseInfoContainer "CourseInfoComponents" {
+            include *
+            autoLayout
+        }
+        
+        component teacherInfoContainer "TeacherInfoComponents" {
+            include *
+            autoLayout
+        }
+        
+        component roomInfoContainer "RoomInfoComponents" {
+            include *
+            autoLayout
+        }
+        
+        component scheduleModificationContainer "ScheduleModificationComponents" {
+            include *
+            autoLayout
+        }
+        
+        component timetableCreationContainer "TimetableCreationComponents" {
+            include *
+            autoLayout
+        }
+        
+        component conflictNotificationContainer "ConflictNotificationComponents" {
+            include *
+            autoLayout
+        }
+        
+        component teacherPreferenceContainer "TeacherPreferenceComponents" {
+            include *
+            autoLayout
+        }
+        
+        component statisticsReportContainer "StatisticsReportComponents" {
+            include *
+            autoLayout
+        }
+        
+        component studentInfoContainer "StudentInfoComponents" {
+            include *
+            autoLayout
+        }
+        
+        component notificationContainer "NotificationComponents" {
             include *
             autoLayout
         }
@@ -211,6 +415,10 @@ workspace "University Scheduling System" "A comprehensive university course sche
             element "Container" {
                 background #438dd5
                 color #ffffff
+            }
+            
+            element "Web Browser" {
+                shape WebBrowser
             }
             
             element "Database" {
