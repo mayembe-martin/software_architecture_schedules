@@ -77,80 +77,6 @@ workspace "University Scheduling System" "A comprehensive university course sche
         
         notificationService -> emailProvider "Sends emails via" "SMTP"
         notificationService -> externalCalendar "Syncs calendar events" "CalDAV/REST"
-        
-        # Deployment Environment - Development
-        deploymentEnvironment "Development" {
-            deploymentNode "Developer Workstation" "Microsoft Windows 10, macOS, or Linux" {
-                deploymentNode "Docker Desktop" "Docker Engine" {
-                    containerInstance webapp
-                    containerInstance api
-                    containerInstance database
-                    containerInstance notificationService
-                }
-            }
-            
-            deploymentNode "Local Services" {
-                softwareSystemInstance authProvider
-                softwareSystemInstance emailProvider
-            }
-        }
-        
-        # Deployment Environment - Production
-        deploymentEnvironment "Production" {
-            deploymentNode "AWS Cloud" {
-                region = deploymentNode "EU Central (Frankfurt)" {
-                    
-                    availabilityZone1 = deploymentNode "Availability Zone 1" {
-                        webServer1 = deploymentNode "EC2 - Web Server 1" "Amazon EC2 - t3.large" {
-                            containerInstance webapp
-                        }
-                        
-                        appServer1 = deploymentNode "EC2 - Application Server 1" "Amazon EC2 - t3.xlarge" {
-                            containerInstance api
-                        }
-                    }
-                    
-                    availabilityZone2 = deploymentNode "Availability Zone 2" {
-                        webServer2 = deploymentNode "EC2 - Web Server 2" "Amazon EC2 - t3.large" {
-                            containerInstance webapp
-                        }
-                        
-                        appServer2 = deploymentNode "EC2 - Application Server 2" "Amazon EC2 - t3.xlarge" {
-                            containerInstance api
-                        }
-                    }
-                    
-                    loadBalancer = deploymentNode "Application Load Balancer" "AWS ALB" {
-                        tags "Infrastructure"
-                    }
-                    
-                    databaseCluster = deploymentNode "RDS Database Cluster" {
-                        primaryDb = deploymentNode "RDS Primary" "PostgreSQL 15 - db.r6g.xlarge" {
-                            containerInstance database
-                        }
-                        
-                        replicaDb = deploymentNode "RDS Read Replica" "PostgreSQL 15 - db.r6g.large" {
-                            containerInstance database
-                        }
-                    }
-                    
-                    notificationNode = deploymentNode "EC2 - Notification Service" "Amazon EC2 - t3.medium" {
-                        containerInstance notificationService
-                    }
-                    
-                    queueService = deploymentNode "Amazon SQS" "Message Queue Service" {
-                        tags "Infrastructure"
-                    }
-                }
-            }
-            
-            deploymentNode "External Services" {
-                softwareSystemInstance authProvider
-                softwareSystemInstance externalCalendar
-                softwareSystemInstance emailProvider
-                softwareSystemInstance sisLdap
-            }
-        }
     }
 
     views {
@@ -200,4 +126,5 @@ workspace "University Scheduling System" "A comprehensive university course sche
         theme default
     }
     
+
 }
