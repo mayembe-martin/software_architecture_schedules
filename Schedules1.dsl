@@ -25,12 +25,32 @@ workspace "University Scheduling System" "A comprehensive university course sche
                 timeslotService = component "Timeslot Service" "Retrieves lecture and practical timeslot information"
             }
             
-            courseInfoContainer = container "Course Information Service" "Manages course details, teacher info, exam dates, and statistics" "Spring Boot" {
-                courseController = component "Course Controller" "Handles course information requests"
-                courseDetailService = component "Course Detail Service" "Retrieves and formats course details"
-                teacherInfoService = component "Teacher Info Service" "Provides teacher information and links"
-                examDateService = component "Exam Date Service" "Manages course examination dates"
-                courseStatisticsService = component "Course Statistics Service" "Computes and displays course statistics"
+            courseInfoContainer = container "Course Information Display" "Provides detailed course information, schedules, prerequisites, and enrollment status" "Spring Boot" {
+                # UI Layer Components
+                courseDetailsView = component "Course Details View" "Displays course name, code, type, semester, and academic year" "React Component"
+                instructorInfoView = component "Instructor Info View" "Shows instructor name, contact info, office hours, and profile link" "React Component"
+                scheduleView = component "Schedule View" "Renders weekly timeslots, room location, duration, and frequency" "React Component"
+                prerequisitesView = component "Prerequisites View" "Lists required courses and displays prerequisite fulfillment status" "React Component"
+                capacityView = component "Capacity/Enrollment View" "Shows max capacity, enrolled students, and seat availability" "React Component"
+                descriptionView = component "Description View" "Displays course description, learning outcomes, and topics covered" "React Component"
+                creditsView = component "Credits View" "Shows ECTS/credit value and workload expectations" "React Component"
+                
+                # Business Logic Layer Components
+                courseService = component "Course Service" "Fetches core course details and coordinates all sub-services" "Service Class"
+                courseFinder = component "Course Finder / Catalog" "Searches for courses by ID and validates course existence" "Service Class"
+                permissionService = component "Permission Service" "Validates student view permissions and enrollment status" "Service Class"
+                courseAggregator = component "Course Aggregator" "Merges instructor, schedule, capacity, prerequisites, and metadata into unified response" "Service Class"
+                instructorDataService = component "Instructor Data Service" "Retrieves instructor information for assigned courses" "Service Class"
+                scheduleDataService = component "Schedule Data Service" "Retrieves timeslot and room information" "Service Class"
+                prerequisiteChecker = component "Prerequisite Checker" "Validates prerequisite fulfillment for students" "Service Class"
+                enrollmentDataService = component "Enrollment Data Service" "Retrieves capacity and current enrollment data" "Service Class"
+                
+                # Persistence Layer Components
+                courseRepository = component "Course Repository" "Queries course metadata, description, credits, and prerequisites" "Repository"
+                instructorRepository = component "Instructor Repository" "Queries instructor details and contact information" "Repository"
+                scheduleRepository = component "Schedule Repository" "Queries weekly timeslots, room info, and calendar alignment" "Repository"
+                cacheManager = component "Cache Manager" "Caches frequently accessed course metadata, instructor info, and schedules" "Cache Service"
+                accessLogger = component "Access Logger" "Logs course-info view events and permission violations" "Logging Service"
             }
             
             teacherInfoContainer = container "Teacher Information Service" "Manages teacher profiles, office hours, and availability" "Spring Boot" {
@@ -178,6 +198,8 @@ workspace "University Scheduling System" "A comprehensive university course sche
         
         # Container Relationships - Feature Services to External Systems
         timetableViewingContainer -> enrollmentSystem "Fetches enrolled courses" "REST"
+        courseInfoContainer -> enrollmentSystem "Fetches enrollment status" "REST"
+        courseInfoContainer -> authProvider "Validates permissions" "OAuth/LDAP"
         scheduleModificationContainer -> notificationContainer "Triggers notifications" "Message Queue"
         timetableCreationContainer -> notificationContainer "Triggers notifications" "Message Queue"
         
@@ -196,6 +218,58 @@ workspace "University Scheduling System" "A comprehensive university course sche
         timetableCreationContainer -> auditLogService "Logs timetable changes" "REST"
         teacherPreferenceContainer -> auditLogService "Logs preference changes" "REST"
         roomInfoContainer -> auditLogService "Logs room bookings" "REST"
+        courseInfoContainer -> auditLogService "Logs course view events" "REST"
+        
+        # Component Relationships - Course Information Display Container (L3)
+        
+        # UI Component relationships
+        courseDetailsView -> courseService "Requests core course details"
+        instructorInfoView -> courseService "Requests instructor information"
+        scheduleView -> courseService "Requests schedule and room data"
+        prerequisitesView -> courseService "Requests prerequisite information and validation status"
+        capacityView -> courseService "Requests enrollment and capacity data"
+        descriptionView -> courseService "Requests course description and outcomes"
+        creditsView -> courseService "Requests credit value and workload info"
+        
+        # Application Component relationships
+        courseService -> courseFinder "Validates course existence and retrieves course ID"
+        courseService -> permissionService "Validates user access permissions"
+        courseService -> courseAggregator "Requests fully assembled course data"
+        
+        courseFinder -> courseRepository "Queries course by ID"
+        courseFinder -> cacheManager "Checks cache for course lookup"
+        
+        permissionService -> accessLogger "Logs permission checks and violations"
+        
+        courseAggregator -> instructorDataService "Fetches instructor data"
+        courseAggregator -> scheduleDataService "Fetches schedule data"
+        courseAggregator -> enrollmentDataService "Fetches capacity and enrollment data"
+        courseAggregator -> prerequisiteChecker "Fetches and validates prerequisites"
+        courseAggregator -> courseRepository "Fetches course metadata and description"
+        
+        instructorDataService -> instructorRepository "Queries instructor details"
+        instructorDataService -> cacheManager "Reads/writes cached instructor info"
+        
+        scheduleDataService -> scheduleRepository "Queries timeslots and room info"
+        scheduleDataService -> cacheManager "Reads/writes cached schedule data"
+        
+        prerequisiteChecker -> courseRepository "Queries prerequisite list"
+        prerequisiteChecker -> permissionService "Validates prerequisite visibility"
+        
+        enrollmentDataService -> courseRepository "Queries capacity and enrollment status"
+        enrollmentDataService -> cacheManager "Reads/writes cached enrollment data"
+        
+        # Persistence Component relationships
+        courseRepository -> database "Executes SQL queries for course metadata, prerequisites, credits"
+        courseRepository -> accessLogger "Logs course data access"
+        
+        instructorRepository -> database "Executes SQL queries for instructor information"
+        instructorRepository -> accessLogger "Logs instructor data access"
+        
+        scheduleRepository -> database "Executes SQL queries for schedule and room data"
+        scheduleRepository -> accessLogger "Logs schedule data access"
+        
+        accessLogger -> auditLogService "Writes access logs and view events"
         
         # Component Relationships - Statistics Report Container (L3)
         statisticsUI -> dataPreparation "Requests aggregated data" "REST/JSON"
@@ -397,6 +471,32 @@ workspace "University Scheduling System" "A comprehensive university course sche
         
         component notificationContainer "NotificationComponents" {
             include *
+            autoLayout
+        }
+        
+        # Dynamic views for Course Information Display
+        dynamic courseInfoContainer "CourseInfoFlow_StudentViewsCourse" "Flow when a student views course details" {
+            courseDetailsView -> courseService "1. Requests course details"
+            courseService -> courseFinder "2. Validates course existence"
+            courseFinder -> courseRepository "3. Queries course by ID"
+            courseFinder -> cacheManager "4. Checks cache"
+            courseService -> permissionService "5. Validates permissions"
+            permissionService -> accessLogger "6. Logs permission checks"
+            courseService -> courseAggregator "7. Requests assembled data"
+            courseAggregator -> instructorDataService "8. Fetches instructor data"
+            instructorDataService -> instructorRepository "9. Queries instructor"
+            courseAggregator -> scheduleDataService "10. Fetches schedule data"
+            scheduleDataService -> scheduleRepository "11. Queries schedule"
+            courseAggregator -> prerequisiteChecker "12. Validates prerequisites"
+            courseAggregator -> enrollmentDataService "13. Fetches enrollment data"
+            autoLayout
+        }
+        
+        dynamic courseInfoContainer "CourseInfoFlow_CachingStrategy" "How caching is managed in course info service" {
+            courseFinder -> cacheManager "1. Checks cache for course lookup"
+            instructorDataService -> cacheManager "2. Reads/writes cached instructor info"
+            scheduleDataService -> cacheManager "3. Reads/writes cached schedule data"
+            enrollmentDataService -> cacheManager "4. Reads/writes cached enrollment data"
             autoLayout
         }
         
