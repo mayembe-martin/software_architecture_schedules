@@ -28,8 +28,8 @@ To make the design of all the system of scheduling, our team followed three main
         - Viewing TimeTable
         - Viewing course Info
     
-    The auxiliar features are those features that are not esential for the system to be implemented, and becasue of that there is only a explanation of their function
+    The auxiliar features are those features that are not esential for the system to be implemented, and because of that there is only an explanation of their function
 
-2. FeatureToModules.drawio file. Here, the core features that were breaked down in the features&responsabilities file are put in a Layered architecture, divided in 3 main layers: Presentation, Businness and Technnical. In this architecture, the responsabilities are placed in one of these 3 layers, and modules are created based on the closeness and connection between responsabilities.
+2. FeatureToModules.drawio file. Here, the core features that were broken down in the features&responsabilities file are put in a Layered architecture, divided in 3 main layers: Presentation, Businness and Technnical. In this architecture, the responsabilities are placed in one of these 3 layers, and modules are created based on the closeness and connection between responsabilities.
 
-3. 
+3. C4.dsl file. This file sums up the C4 design of all the system, including the L1, L2 & each features' L3 diagrams, along with the deployment diagrams.
