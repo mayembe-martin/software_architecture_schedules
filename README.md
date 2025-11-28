@@ -33,3 +33,26 @@ To make the design of all the system of scheduling, our team followed three main
 2. FeatureToModules.drawio file. Here, the core features that were broken down in the features&responsabilities file are put in a Layered architecture, divided in 3 main layers: Presentation, Businness and Technnical. In this architecture, the responsabilities are placed in one of these 3 layers, and modules are created based on the closeness and connection between responsabilities.
 
 3. C4.dsl file. This file sums up the C4 design of all the system, including the L1, L2 & each features' L3 diagrams, along with the deployment diagrams.
+
+    - L1 diagram: L1 diagram shows the archictecture of the system in a very general way, with only the actors and the system which are taking part, along with external or auxiliar systems. 
+    
+    In the C4.dsl file, if it is run in the Structurizr Software, it can be found in the slot "System Context View: University Scheduling System"
+
+
+    - L2 diagram: L2 diagram shows how the system is builded in a high level of abstraction. In this diagram, the containers that form the system and the interactions between them are displayed. 
+
+    In the C4.dsl file, it can be found in the slot "Container View: University Scheduling System"
+
+
+    - L3 diagrams:
+
+        1. Teacher info with office hours display:
+
+        2. Course Modification:
+
+        3. Statistics Report:
+
+        4. Viewing Timetable:
+
+        5. Viewing Course Info:
+
