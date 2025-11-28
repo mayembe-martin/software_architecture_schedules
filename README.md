@@ -44,15 +44,39 @@ To make the design of all the system of scheduling, our team followed three main
     In the C4.dsl file, it can be found in the slot "Container View: University Scheduling System"
 
 
-    - L3 diagrams:
+L3 diagrams: Each L3 diagram breaks down a feature container into its internal components, organized across architectural layers.
 
-        1. Teacher info with office hours display:
+1. **Timetable Viewer:**
+   - **Presentation Layer:** Displays timetables in two different views - current week and whole year formats that users can switch between
+   - **Business Logic:** Handles requests for timetable data for each view type and manages navigation when users click on course slots to view detailed information
+   - **Persistence Layer:** Manages database access to retrieve timetable information
+   - *Total: 6 components showing how students view their schedules with flexible viewing options and easy navigation to course details*
 
-        2. Course Modification:
+2. **Course Information Service:**
+   - **Business Logic:** Orchestrates the retrieval of comprehensive course information by coordinating multiple data sources - validates user permissions, searches for courses, aggregates data from instructor/schedule/enrollment/prerequisite services, manages exam dates and computes course statistics
+   - **Persistence Layer:** Queries databases for course metadata, instructor details, and schedule information while using cache to improve performance and logging all access events for security
+   - *Total: 15 components that assemble complete course information from multiple data sources, ensuring students see accurate details about courses, prerequisites, enrollment capacity, and scheduling*
 
-        3. Statistics Report:
+3. **Teacher Information Service:**
+   - **Teacher Management:** Handles teacher search requests, displays office hours, manages teacher profiles, and validates user permissions
+   - **Office Hours Backend:** Complex system that authenticates users, validates search filters, retrieves and formats office hour slots with recurrence patterns, caches results for performance, and can trigger notifications when schedules change
+   - **Persistence:** Abstracts database access for teacher and schedule data
+   - **Notification:** Queues and processes email notifications and calendar sync events
+   - *Total: 21 components providing a complete teacher information system with sophisticated office hours management, smart caching to reduce database load, and automated notifications*
 
-        4. Viewing Timetable:
+4. **Schedule Modification Service:**
+   - **Modification Management:** Receives schedule change requests, orchestrates a validation workflow, checks for conflicts (time overlaps, room capacity), suggests alternative slots when conflicts exist, and enforces user permissions
+   - **Concurrency & Impact:** Handles record locking to prevent simultaneous conflicting changes and identifies which students/teachers are affected by schedule modifications
+   - **Persistence:** Persists validated timetable changes to the database
+   - *Total: 9 components ensuring schedule changes are validated, conflict-free, properly authorized, and that affected users are identified for notification*
 
-        5. Viewing Course Info:
+5. **Statistical Reports Service:**
+   - **Presentation:** Dashboard UI displaying KPIs, heatmaps, trend charts with filter options and export buttons
+   - **Business Logic:** Pre-aggregates metrics for fast dashboard loading and formats data for CSV/XLSX exports
+   - **Infrastructure:** Caches frequently accessed statistics to reduce database queries, logs all user searches and report requests for audit purposes, and connects to both internal database and external enrollment system
+   - *Total: 5 components generating resource utilization analytics and reports with intelligent caching and comprehensive audit logging for compliance*
 
+---
+
+**Dynamic Diagram - Timetable Viewer Flow:**
+Shows the complete user journey: student views current week timetable → system retrieves data from database → displays timetable → student clicks on a course → system redirects to detailed course information page. This demonstrates how the Timetable Viewer and Course Information Service work together.
