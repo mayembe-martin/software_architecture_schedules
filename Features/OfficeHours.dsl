@@ -34,21 +34,16 @@ workspace {
       redis = container "Redis Cache" "Redis" "Cache for searches and slots"
     }
 
-    /* --- Relaciones del modelo (necesarias para las vistas dinámicas) --- */
-
-    /* Actores / contenedores de alto nivel */
     user -> web "Uses the student UI"
     web -> api "Sends HTTP requests to backend"
     api -> web "Responds with data"
 
-    /* Interacciones frontend (componente) -> backend (componentes) */
     apiClient -> searchCtrl "Calls teacher search endpoint"
     searchCtrl -> apiClient "Returns teachers list (HTTP response)"
 
     apiClient -> officeHoursCtrl "Requests office hours for selected teacher"
     officeHoursCtrl -> apiClient "Returns office hours (HTTP response)"
 
-    /* Backend: componentes internos entre sí (component -> component) */
     searchCtrl -> authComp "Validate user token and role"
     searchCtrl -> queryValidator "Validate search filters"
     searchCtrl -> teacherSvc "Delegate search logic"
@@ -68,16 +63,15 @@ workspace {
     scheduleSvc -> officeSvc "Return formatted slots"
     officeSvc -> officeHoursCtrl "Return DTO with slots"
 
-    /* Infra explícita */
     cacheAdapter -> redis "Read/Write cache"
     teacherRepo -> db "Reads teacher rows"
     scheduleRepo -> db "Reads schedule rows"
   }
 
   views {
-    /* --- Dynamic view a nivel software system (contenedor-level / actor-level) --- */
+    
     dynamic teacherSystem {
-      title "Sequence: Viewing teacher office hours (happy path) - Container level"
+      title "Sequence: Viewing teacher office hours (dynamic diagram) - Container level"
 
       user -> web "Student opens dashboard and clicks Teachers"
       web -> api "Request teacher search with filters"
@@ -85,12 +79,11 @@ workspace {
       api -> web "Deliver teachers list / office hours to frontend"
       web -> user "Render office hours to student"
 
-      description "High-level happy path showing interactions between actor and containers."
+      description "High-level dynamic diagram between actor and containers."
     }
 
-    /* --- Dynamic view con alcance en el contenedor 'api' (muestra componentes internos) --- */
-    dynamic api {
-      title "Sequence: Viewing teacher office hours (happy path) - Backend component level"
+        dynamic api {
+      title "Sequence: Viewing teacher office hours (dynamic diagram) - Backend component level"
 
       apiClient -> searchCtrl "API client calls search endpoint"
       searchCtrl -> authComp "Validate user token and role"
