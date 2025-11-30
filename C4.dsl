@@ -505,6 +505,25 @@ workspace "University Scheduling System" "A comprehensive university course sche
           universitySchedulingSystem.timetableViewer.cwTimetableDisplay -> universitySchedulingSystem.timetableViewer.courseDetailRequester
           universitySchedulingSystem.timetableViewer.courseDetailRequester -> universitySchedulingSystem.courseInfoContainer
         }
+        
+        
+        dynamic universitySchedulingSystem.courseInfoContainer "Dynamic_CourseInfoFlow" "Flow when a student views course details" {
+            autolayout lr
+
+            universitySchedulingSystem.courseInfoContainer.courseService -> universitySchedulingSystem.courseInfoContainer.courseFinder "1. Validates course existence"
+            universitySchedulingSystem.courseInfoContainer.courseFinder -> universitySchedulingSystem.courseInfoContainer.courseRepository "2. Queries course by ID"
+            universitySchedulingSystem.courseInfoContainer.courseFinder -> universitySchedulingSystem.courseInfoContainer.courseCacheManager "3. Checks cache"
+            universitySchedulingSystem.courseInfoContainer.courseService -> universitySchedulingSystem.courseInfoContainer.permissionService "4. Validates permissions"
+            universitySchedulingSystem.courseInfoContainer.permissionService -> universitySchedulingSystem.courseInfoContainer.courseAccessLogger "5. Logs permission checks"
+            universitySchedulingSystem.courseInfoContainer.courseService -> universitySchedulingSystem.courseInfoContainer.courseAggregator "6. Requests assembled data"
+            universitySchedulingSystem.courseInfoContainer.courseAggregator -> universitySchedulingSystem.courseInfoContainer.instructorDataService "7. Fetches instructor data"
+            universitySchedulingSystem.courseInfoContainer.instructorDataService -> universitySchedulingSystem.courseInfoContainer.instructorRepository "8. Queries instructor"
+            universitySchedulingSystem.courseInfoContainer.courseAggregator -> universitySchedulingSystem.courseInfoContainer.scheduleDataService "9. Fetches schedule data"
+            universitySchedulingSystem.courseInfoContainer.scheduleDataService -> universitySchedulingSystem.courseInfoContainer.scheduleRepository "10. Queries schedule"
+            universitySchedulingSystem.courseInfoContainer.courseAggregator -> universitySchedulingSystem.courseInfoContainer.prerequisiteChecker "11. Validates prerequisites"
+            universitySchedulingSystem.courseInfoContainer.courseAggregator -> universitySchedulingSystem.courseInfoContainer.enrollmentDataService "12. Fetches enrollment data"
+        }
+
 
         deployment universitySchedulingSystem "Development" "DevelopmentDeployment" {
             include *
