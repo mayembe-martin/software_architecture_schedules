@@ -494,6 +494,28 @@ workspace "University Scheduling System" "A comprehensive university course sche
             autolayout tb
         }
 
+
+        dynamic universitySchedulingSystem.statisticsReportContainer "Dynamic_StatisticsFlow" "Flow when a user requests a statistics report" {
+            autolayout lr
+
+            universitySchedulingSystem.statisticsReportContainer.statisticsUI -> universitySchedulingSystem.statisticsReportContainer.cache "1. Check cache for existing aggregated report"
+            universitySchedulingSystem.statisticsReportContainer.cache -> universitySchedulingSystem.statisticsReportContainer.statisticsUI "2. Return cached result (cache hit)"
+
+            universitySchedulingSystem.statisticsReportContainer.statisticsUI -> universitySchedulingSystem.statisticsReportContainer.dataPreparation "3. Request aggregated data (cache miss or fresh request)"
+            universitySchedulingSystem.statisticsReportContainer.dataPreparation -> universitySchedulingSystem.statisticsReportContainer.databaseConnector "4. Request raw data / enrollment data"
+            universitySchedulingSystem.statisticsReportContainer.databaseConnector -> universitySchedulingSystem.database "5. Query analytics data"
+            universitySchedulingSystem.statisticsReportContainer.databaseConnector -> enrollmentSystem "6. Fetch enrollment data"
+            universitySchedulingSystem.statisticsReportContainer.databaseConnector -> universitySchedulingSystem.statisticsReportContainer.auditLogger "7. Log DB queries"
+
+            universitySchedulingSystem.statisticsReportContainer.dataPreparation -> universitySchedulingSystem.statisticsReportContainer.cache "8. Store aggregated results in cache"
+            universitySchedulingSystem.statisticsReportContainer.dataPreparation -> universitySchedulingSystem.statisticsReportContainer.auditLogger "9. Log aggregation operation"
+
+            universitySchedulingSystem.statisticsReportContainer.auditLogger -> universitySchedulingSystem.auditLogService "10. Persist audit logs"
+
+            universitySchedulingSystem.statisticsReportContainer.statisticsUI -> universitySchedulingSystem.statisticsReportContainer.cache "12. Optionally request export from cached data"
+        }
+
+
         dynamic universitySchedulingSystem.timetableViewer "Dynamic_TimetableViewer" {
           autolayout tb
 
