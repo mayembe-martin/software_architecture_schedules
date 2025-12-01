@@ -262,38 +262,44 @@ workspace "University Scheduling System" "A comprehensive university course sche
         universitySchedulingSystem.teacherInfoContainer.searchCtrl -> universitySchedulingSystem.teacherInfoContainer.searchCache "Check cache"
         universitySchedulingSystem.teacherInfoContainer.searchCtrl -> universitySchedulingSystem.teacherInfoContainer.teacherSvc "Delegate search logic"
         universitySchedulingSystem.teacherInfoContainer.searchCtrl -> universitySchedulingSystem.teacherInfoContainer.teacherRepo "Fetch teacher ids/list"
-
+        
         universitySchedulingSystem.teacherInfoContainer.teacherSvc -> universitySchedulingSystem.teacherInfoContainer.teacherRepo "Read teacher profiles"
         universitySchedulingSystem.teacherInfoContainer.teacherSvc -> universitySchedulingSystem.teacherInfoContainer.searchCache "Update cache"
-
+        
         universitySchedulingSystem.teacherInfoContainer.officeHoursCtrl -> universitySchedulingSystem.teacherInfoContainer.authComp "Validate user role"
         universitySchedulingSystem.teacherInfoContainer.officeHoursCtrl -> universitySchedulingSystem.teacherInfoContainer.officeSvc "Request office hours"
-
+        
         universitySchedulingSystem.teacherInfoContainer.officeSvc -> universitySchedulingSystem.teacherInfoContainer.scheduleSvc "Compute/format slots"
+        universitySchedulingSystem.teacherInfoContainer.officeSvc -> universitySchedulingSystem.teacherInfoContainer.officeHoursService "Return formatted slots"
+        universitySchedulingSystem.teacherInfoContainer.officeSvc -> universitySchedulingSystem.teacherInfoContainer.teacherController "Return office hours DTO"
+        
         universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.cacheAdapter "Check cache"
         universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.scheduleRepo "Query schedule data"
-
+        
         universitySchedulingSystem.teacherInfoContainer.scheduleRepo -> universitySchedulingSystem.database "SQL queries"
         universitySchedulingSystem.teacherInfoContainer.teacherRepo -> universitySchedulingSystem.database "SQL queries"
-
+        
         universitySchedulingSystem.teacherInfoContainer.cacheAdapter -> universitySchedulingSystem.redisCache "GET/SET"
         universitySchedulingSystem.teacherInfoContainer.searchCache -> universitySchedulingSystem.redisCache "GET/SET"
-
+        
         universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.notifEnq "Enqueue notification on change (if applicable)"
         universitySchedulingSystem.teacherInfoContainer.notifEnq -> universitySchedulingSystem.teacherInfoContainer.notificationQueue "Adds to queue"
         universitySchedulingSystem.teacherInfoContainer.notificationQueue -> universitySchedulingSystem.teacherInfoContainer.emailProcessor "Processes queued notifications"
         universitySchedulingSystem.teacherInfoContainer.emailProcessor -> emailProvider "Sends emails" "SMTP"
         universitySchedulingSystem.teacherInfoContainer.calendarIntegration -> externalCalendar "Syncs calendar events" "CalDAV/REST"
-
-
+        
         universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.teacherInfoContainer.teacherSearchService "Delegates search to"
+        universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.timetableViewer "Return results to UI" "REST/JSON"
+        
         universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.teacherInfoContainer.officeHoursService "Retrieves office hours from"
+        universitySchedulingSystem.teacherInfoContainer.officeHoursService -> universitySchedulingSystem.teacherInfoContainer.officeSvc "Delegates to" "REST/INTERNAL"
+        universitySchedulingSystem.teacherInfoContainer.officeHoursService -> universitySchedulingSystem.teacherInfoContainer.teacherController "Return office-hours DTO"
         universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.teacherInfoContainer.teacherProfileService "Retrieves profile from"
-
+        
         universitySchedulingSystem.teacherInfoContainer.teacherSearchService -> universitySchedulingSystem.teacherInfoContainer.teacherRepository "Queries teachers"
         universitySchedulingSystem.teacherInfoContainer.officeHoursService -> universitySchedulingSystem.teacherInfoContainer.teacherRepository "Queries office hours"
         universitySchedulingSystem.teacherInfoContainer.teacherProfileService -> universitySchedulingSystem.teacherInfoContainer.teacherRepository "Queries profile"
-
+        
         universitySchedulingSystem.teacherInfoContainer.teacherRepository -> universitySchedulingSystem.database "Executes SQL SELECT"
 
         # Schedule Modification Service - Internal Component Relationships
@@ -544,6 +550,50 @@ workspace "University Scheduling System" "A comprehensive university course sche
             universitySchedulingSystem.courseInfoContainer.scheduleDataService -> universitySchedulingSystem.courseInfoContainer.scheduleRepository "10. Queries schedule"
             universitySchedulingSystem.courseInfoContainer.courseAggregator -> universitySchedulingSystem.courseInfoContainer.prerequisiteChecker "11. Validates prerequisites"
             universitySchedulingSystem.courseInfoContainer.courseAggregator -> universitySchedulingSystem.courseInfoContainer.enrollmentDataService "12. Fetches enrollment data"
+        }
+        
+        dynamic universitySchedulingSystem.teacherInfoContainer "Dynamic_TeacherInformation" "Sequence: Teacher search & office hours retrieval (happy path)" {
+          autolayout lr
+        
+          1: universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.teacherInfoContainer.teacherSearchService "Receive search request"
+          2: universitySchedulingSystem.teacherInfoContainer.teacherSearchService -> universitySchedulingSystem.teacherInfoContainer.teacherRepository "Query teacher repository"
+          3: universitySchedulingSystem.teacherInfoContainer.teacherRepository -> universitySchedulingSystem.database "Execute SQL SELECT teachers"
+          4: universitySchedulingSystem.database -> universitySchedulingSystem.teacherInfoContainer.teacherRepository "Return rows"
+          5: universitySchedulingSystem.teacherInfoContainer.teacherRepository -> universitySchedulingSystem.teacherInfoContainer.teacherSearchService "Return teacher list"
+          6: universitySchedulingSystem.teacherInfoContainer.teacherSearchService -> universitySchedulingSystem.teacherInfoContainer.teacherController "Return search results"
+          7: universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.timetableViewer "Return results to UI"
+        
+          8: universitySchedulingSystem.timetableViewer -> universitySchedulingSystem.teacherInfoContainer.teacherController "UI requests teacher profile and office hours"
+          9: universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.teacherInfoContainer.officeHoursService "Request office hours"
+          10: universitySchedulingSystem.teacherInfoContainer.officeHoursService -> universitySchedulingSystem.teacherInfoContainer.officeSvc "Delegate to office hours component"
+          11: universitySchedulingSystem.teacherInfoContainer.officeSvc -> universitySchedulingSystem.teacherInfoContainer.scheduleSvc "Resolve recurrences and build slots"
+          12: universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.cacheAdapter "Check formatted slots cache"
+          13: universitySchedulingSystem.teacherInfoContainer.cacheAdapter -> universitySchedulingSystem.redisCache "Redis GET"
+          14: universitySchedulingSystem.redisCache -> universitySchedulingSystem.teacherInfoContainer.cacheAdapter "Return cache result"
+        
+          /* Cache-hit path */
+          15: universitySchedulingSystem.teacherInfoContainer.cacheAdapter -> universitySchedulingSystem.teacherInfoContainer.scheduleSvc "Cache hit: return formatted slots"
+          16: universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.officeSvc "Return formatted slots"
+          17: universitySchedulingSystem.teacherInfoContainer.officeSvc -> universitySchedulingSystem.teacherInfoContainer.teacherController "Return office hours DTO"
+          18: universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.timetableViewer "Return DTO to UI (cache-hit)"
+        
+          /* Cache-miss path */
+          19: universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.scheduleRepo "Cache miss: query schedule repository"
+          20: universitySchedulingSystem.teacherInfoContainer.scheduleRepo -> universitySchedulingSystem.database "Execute SQL SELECT schedules"
+          21: universitySchedulingSystem.database -> universitySchedulingSystem.teacherInfoContainer.scheduleRepo "Return schedule rows"
+          22: universitySchedulingSystem.teacherInfoContainer.scheduleRepo -> universitySchedulingSystem.teacherInfoContainer.scheduleSvc "Return raw schedule data"
+          23: universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.cacheAdapter "Store computed slots"
+          24: universitySchedulingSystem.teacherInfoContainer.cacheAdapter -> universitySchedulingSystem.redisCache "Redis SET"
+          25: universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.officeSvc "Return formatted slots (after computation)"
+          26: universitySchedulingSystem.teacherInfoContainer.officeSvc -> universitySchedulingSystem.teacherInfoContainer.teacherController "Return office hours DTO"
+          27: universitySchedulingSystem.teacherInfoContainer.teacherController -> universitySchedulingSystem.timetableViewer "Return DTO to UI (cache-miss)"
+        
+          28: universitySchedulingSystem.teacherInfoContainer.scheduleSvc -> universitySchedulingSystem.teacherInfoContainer.notifEnq "Enqueue notification if changes"
+          29: universitySchedulingSystem.teacherInfoContainer.notifEnq -> universitySchedulingSystem.teacherInfoContainer.notificationQueue "Add to notification queue"
+          30: universitySchedulingSystem.teacherInfoContainer.notificationQueue -> universitySchedulingSystem.teacherInfoContainer.emailProcessor "Process notification"
+          31: universitySchedulingSystem.teacherInfoContainer.emailProcessor -> emailProvider "Send email"
+        
+          description "Teacher search and office hours retrieval flow with explicit cache-hit and cache-miss paths."
         }
 
 
