@@ -6,3 +6,15 @@ Solution: The request is detected, an attacker is not recognized as a teacher, n
 
 2) Security Problem: An attacker sends an exam term edit/cancel request to Exam Term Management component.
 Solution: The request is detected, an attacker is not recognized as a teacher, notification is sent (or the exam term data is restored).
+
+
+Iker:
+
+1) Availability Problem: A Student wants to check a grade from the Web Application, but in the Backend API, the Persistence Adapter is not returning to the Result Viewing the grade mark.
+
+Solution: The systems sends both to the teacher and to the Student a notification that the system is not working. In the case of the teacher, he Will receive a notification from the system that is not working, and a reminder of sending personally to the Student the pertinent grade. In the case of the Student, the system Will send him a notification of the system not working along with a notification that the teacher Will send him the grade personally.
+
+
+2) Modifiability problem: The grading system must be modified in order to include a new feature, and the IT deparment must do it within an hour (time). However, when the IT deparment examinates the system they realise that the data Flow of the grading service is merged with other data flows of the rest of the services into one Persistence Adapter, right before Reading information of the DataBase. The problema is that if one data Flow wants to be modified, every data Flow must be also modified and this makes the modification of the system something far more complex and that takes much more time that the established time (1 hour).
+
+Solution: To make the system more modifiable, the unique persistent adpater can be splited in many independent adapters, one for each service's data Flow. With this, every time one data Flow needs to be modified, it can be done idependently from the other data flows and in the time lapse required (in this case, 1 hour).
