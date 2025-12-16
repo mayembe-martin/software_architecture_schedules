@@ -18,3 +18,27 @@ Solution: The systems sends both to the teacher and to the Student a notificatio
 2) Modifiability problem: The grading system must be modified in order to include a new feature, and the IT deparment must do it within an hour (time). However, when the IT deparment examinates the system they realise that the data Flow of the grading service is merged with other data flows of the rest of the services into one Persistence Adapter, right before Reading information of the DataBase. The problema is that if one data Flow wants to be modified, every data Flow must be also modified and this makes the modification of the system something far more complex and that takes much more time that the established time (1 hour).
 
 Solution: To make the system more modifiable, the unique persistent adpater can be splited in many independent adapters, one for each service's data Flow. With this, every time one data Flow needs to be modified, it can be done idependently from the other data flows and in the time lapse required (in this case, 1 hour).
+
+
+
+Vladyslav:
+
+Modifiability
+
+Source of Stimulus	 Developers of the external Student Information System.
+
+Stimulus	The SIS releases a new version of their API (e.g., changes data format from XML to JSON).
+
+Artifact	Backend API Container (the Integration Adapter component).
+
+Environment	    Design-time
+
+Response
+
+1. The Integration Adapter internal logic is updated to map the new format.
+
+2. The Integration Adapter public interface remains unchanged.
+
+3. The Registration Management component requires zero code changes.
+
+Measure	    The change is implemented and deployed within 1 day of effort, with 0 changes required in the Registration Management component.
