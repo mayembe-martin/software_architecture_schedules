@@ -1,0 +1,8 @@
+
+Valentyn:
+
+1) Security Problem: An attacker sends a grade edit request to Grading Management component.
+Solution: The request is detected, an attacker is not recognized as a teacher, notification is sent (or the grades data is restored).
+
+2) Security Problem: An attacker sends an exam term edit/cancel request to Exam Term Management component.
+Solution: The request is detected, an attacker is not recognized as a teacher, notification is sent (or the exam term data is restored).
