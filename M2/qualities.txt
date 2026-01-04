@@ -20,29 +20,37 @@ Solution: The systems sends both to the teacher and to the Student a notificatio
 Solution: To make the system more modifiable, the unique persistent adpater can be splited in many independent adapters, one for each service's data Flow. With this, every time one data Flow needs to be modified, it can be done idependently from the other data flows and in the time lapse required (in this case, 1 hour).
 
 
-
 Vladyslav:
+Modifiability Requirement
+
+This requirement addresses the cost of adapting to changes in external systems.
+Source of Stimulus: Developers of the external Student Information System (SIS).
+Stimulus: The SIS releases a new version of their API (changes data format from XML to JSON).
+Artifact: Backend API Container (specifically the Integration Adapter component).
+Environment: Design-time.
+
+Response:
+The Integration Adapter internal logic is updated to map the new JSON format to the internal domain model.The Integration Adapter's public interface (used by other backend components) remains unchanged.
+
+The Registration Management component requires zero code changes.
+
+Measure: The change is implemented and deployed within 1 day of work, with 0 changes required in the Registration Management component.
+
 
 Modifiability
 
-Source of Stimulus	 Developers of the external Student Information System.
+Source of Stimulus: University IT Department.
+Stimulus: The university wants to add Push Notifications (via a mobile app) as a new notification channel, in addition to the existing Email and SMS.
+Artifact: Backend API Container (Notification Service component).
+Environment: Design-time.
 
-Stimulus	The SIS releases a new version of their API (e.g., changes data format from XML to JSON).
+Response:
 
-Artifact	Backend API Container (the Integration Adapter component).
+A new handler is added to the Notification Service to interface with the Push Notification Gateway.
+The Term Management and Grading Management components (which trigger notifications) require zero code changes because they use a generic notification interface.
 
-Environment	    Design-time
-
-Response
-
-1. The Integration Adapter internal logic is updated to map the new format.
-
-2. The Integration Adapter public interface remains unchanged.
-
-3. The Registration Management component requires zero code changes.
-
-Measure	    The change is implemented and deployed within 1 day of effort, with 0 changes required in the Registration Management component.
-
+Measure:
+The new channel is integrated with 0 lines of code changed in the core business modules. Implementation takes at most 1 day.
 
 
 Martin Mayembe:
