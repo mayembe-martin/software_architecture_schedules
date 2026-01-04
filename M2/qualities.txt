@@ -91,3 +91,80 @@ Current Strengths:
 Architectural Extension:
 - Implement "Data Encryption Service" component for at-rest encryption
 
+
+Yash Mange : 
+
+* Reliability problem : 
+
+During peak usage (e.g. after grade publication or before exam registration deadlines), external systems such as the Student Information System (SIS) or the Timetable Service may become temporarily unavailable or respond slowly.
+When this happens, core EXA functionality (registration, result viewing, or grading workflows) may fail or hang due to synchronous dependencies on these external services.
+
+-Involved Users:
+Student, Teacher
+
+-Affected System Parts:
+--In Backend API:
+
+Integration Adapter
+
+Registration Management
+
+Grading Management
+
+Result Viewing
+
+--In External Systems:
+
+Student Information System (SIS)
+
+Timetable Service
+
+The current architecture allows failures in external systems to propagate into EXA, reducing overall system reliability and potentially blocking critical academic processes.
+
+
+* Reliability problem solution : 
+
+The solution introduces fault-tolerance mechanisms at the Integration Adapter level.
+All communication with external systems is guarded by timeouts, retries with backoff, and circuit breakers.
+
+If an external system is unavailable, the Integration Adapter either:
+
+returns cached or last-known-valid data where possible, or
+
+fails fast and allows the calling business component to continue in a degraded but controlled mode.
+
+This prevents cascading failures, ensures that EXA remains operational for core use cases, and significantly improves system reliability even when external dependencies are unstable.
+
+
+
+* Scalability problem issue :
+
+At predictable times such as the beginning of the semester or during exam registration openings, hundreds or thousands of students may simultaneously attempt to register for exam terms or view schedules.
+This leads to sudden spikes in load on the Backend API, particularly on registration-related components and database access.
+
+-Involved Users:
+Student
+
+-Affected System Parts:
+--In Backend API:
+
+Registration Management
+
+Persistence Adapter
+
+Database
+
+--In Infrastructure:
+
+Backend API container
+
+The current architecture risks performance degradation or request failures under high concurrent load if backend components cannot scale quickly enough.
+
+* Scalability problem solution :
+
+The solution leverages horizontal scalability of the Backend API container.
+The Registration Management component is designed to be stateless, allowing multiple instances to be deployed behind a load balancer.
+
+Database access is optimized through connection pooling and efficient transaction handling, while predictable peak periods are handled by pre-scaling backend instances ahead of time.
+
+This approach ensures that the system can handle large bursts of concurrent requests while maintaining acceptable response times, fulfilling the scalability requirement.
