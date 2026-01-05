@@ -1,8 +1,10 @@
 
 Valentyn:
 
-1) Security Problem: An attacker sends a grade edit request to Grading Management component.
-Solution: The request is detected, an attacker is not recognized as a teacher, notification is sent (or the grades data is restored).
+1) Security Problem: An attacker tries to modify the grades by sending a grade edit request to Grading Management component.
+Solution: The request is detected, an attacker is not recognized as a teacher, notification is sent.
+
+No architecture modification is needed because a notification is just being sent.
 
 2) Security Problem: An attacker sends an exam term edit/cancel request to Exam Term Management component.
 Solution: The request is detected, an attacker is not recognized as a teacher, notification is sent (or the exam term data is restored).
