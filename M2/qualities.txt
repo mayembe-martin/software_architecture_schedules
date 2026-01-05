@@ -75,9 +75,8 @@ Requirement:
 When a user makes a request, the system should respond within a maxium of 2 seconds during peak periods (5000 requests per second).
 
 Archetectural Extension: Required.
- - During runtime, at least two instances of the Persitence and Integration adaptor must be deployed in order to cusion the load as these may create a bottleneck.
- - A load balancer ccan be introduced to manage the load and distribute the load among these instances
- - In the case external systems where the required information must be pulled from, the use should get a response within the system time letting them know that the service they are requesting is currently unavailable. This can already happen via the Notification service.
+ - During runtime, at least two instances of the Persitence and Integration adaptors must be deployed in order to cusion the load as these may create a bottleneck.
+ - In the case where external systems where the required information must be pulled from, the user should get a response within the system time letting them know that the service they are requesting is currently unavailable. This can already happen via the Notification service.
 
 
 Yash Mange : 
