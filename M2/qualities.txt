@@ -61,50 +61,23 @@ The new channel is integrated with 0 lines of code changed in the core business 
 
 
 Martin Mayembe:
-1)  Maintainability & Testability
+1)  Testability
 
 Requirement: 
-Enable independent deployment of components with comprehensive automated testing, supporting bi-weekly releases with minimal downtime.
+Each component of the system must take not more than 15 minutes to setup and deploy for testing.
 
 Architectural Extension: None Required.
+Reason: Because all modules communicate with each other via the Integration Adaptor, only the adaptor (which only needs to be deployed once for all components in the backend API) and the module being tested need to be be deployed.  
 
-Current Strengths:
-a) Clean Separation of Concerns:
-- Clear component boundaries with single responsibilities (Term Management, Registration, Grading, Results)
-- Hexagonal/ports-and-adapters pattern evident (Persistence Adapter, Integration Adapter)
-- Components communicate through well-defined interfaces
+2) Performance
 
+Requirement:
+When a user makes a request, the system should respond within a maxium of 2 seconds during peak periods (5000 requests per second).
 
-b) Testability by Design:
-- Integration Adapter abstracts external systems - can be mocked for unit testing
-- Persistence Adapter abstracts database - enables in-memory testing
-- Each component has clear inputs/outputs suitable for contract testing
-- Dynamic views document interaction flows useful for integration test scenarios
-
-
-c) Deployment Independence:
-- Web Application (SPA) can be deployed separately from Backend API
-- Component-level separation within API container allows for future microservices extraction
-- Database schema changes can be managed through migration scripts independently
-
-
-d) Development Environment Support:
-- Dedicated development deployment environment shown
-- Test instances of external systems enable isolated testing
-
-
-
-2) Security & Data Privacy
-
-Requirement: 
-Protect sensitive user data (grades, PII, etc) with end-to-end encryption, role-based access control (RBAC), and audit logging compliant with GDPR/FERPA regulations.
-
-Current Strengths:
-- Integration with Identity Provider (IdP) for SSO authentication
-- HTTPS communication between web app and API
-
-Architectural Extension:
-- Implement "Data Encryption Service" component for at-rest encryption
+Archetectural Extension: Required.
+ - During runtime, at least two instances of the persitence and integration adaptor must be deployed in order to cusion the load as these may create a bottleneck.
+ - A load balancer ccan be introduced to manage the load and distribute the load among these instances
+ - In the case external systems where the required information must be pulled from, the use should get a response within the system time letting them know that the service they are requesting is currently unavailable.
 
 
 Yash Mange : 
