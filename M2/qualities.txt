@@ -72,7 +72,7 @@ Reason: Because all modules communicate with each other via the Integration Adap
 2) Performance
 
 Requirement:
-When a user makes a request, the system should respond within a maximum of 2 seconds during peak periods (5000 requests per second).
+When a user makes a request, the system should respond within a maximum of 5 seconds during peak periods (5000 requests per second).
 
 Archetectural Extension: Required.
  - During runtime, at least two instances of the Persitence and Integration adaptors must be deployed in order to cushion the load as these may create a bottleneck.
