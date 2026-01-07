@@ -79,34 +79,32 @@ Archetectural Extension: Required.
  - In the case where external systems where the required information must be pulled from, the user should get a response within the same time letting them know that the service they are requesting is currently unavailable. This can already happen via the Notification service.
 
 
+
 Yash Mange : 
 
-* Reliability problem : 
 
-During peak usage (e.g. after grade publication or before exam registration deadlines), external systems such as the Student Information System (SIS) or the Timetable Service may become temporarily unavailable or respond slowly.
-When this happens, core EXA functionality (registration, result viewing, or grading workflows) may fail or hang due to synchronous dependencies on these external services.
+* Reliability — Quality Requirement Scenario issue:
 
--Involved Users:
-Student, Teacher
+Quality Attribute: Reliability
 
--Affected System Parts:
---In Backend API:
+Source of Stimulus:
+External system (Student Information System or Timetable Service)
 
-Integration Adapter
+Stimulus:
+An external system becomes unavailable or responds slowly.
 
-Registration Management
+Environment:
+Normal system operation, possibly during peak usage.
 
-Grading Management
+Artifact:
+Integration Adapter in the Backend API.
 
-Result Viewing
+Response:
+The Integration Adapter detects the failure using timeouts, retries, or circuit breakers and prevents the failure from propagating to core business components.
+The system continues operating in a degraded but controlled mode.
 
---In External Systems:
-
-Student Information System (SIS)
-
-Timetable Service
-
-The current architecture allows failures in external systems to propagate into EXA, reducing overall system reliability and potentially blocking critical academic processes.
+Response Measure:
+Core EXA functionality (registration, result viewing) remains available, and failures do not cascade beyond the Integration Adapter.
 
 
 * Reliability problem solution : 
@@ -126,26 +124,30 @@ This prevents cascading failures, ensures that EXA remains operational for core 
 
 * Scalability problem issue :
 
-At predictable times such as the beginning of the semester or during exam registration openings, hundreds or thousands of students may simultaneously attempt to register for exam terms or view schedules.
-This leads to sudden spikes in load on the Backend API, particularly on registration-related components and database access.
+Scalability — Quality Requirement Scenario
 
--Involved Users:
-Student
+Quality Attribute: Scalability
 
--Affected System Parts:
---In Backend API:
+Source of Stimulus:
+Students
 
-Registration Management
+Stimulus:
+A large number of concurrent requests arrive at the system (e.g. exam registration opening).
 
-Persistence Adapter
+Environment:
+Peak usage periods at predictable times.
 
-Database
+Artifact:
+Backend API container, especially the Registration Management component.
 
---In Infrastructure:
+Response:
+The Backend API scales horizontally by running multiple stateless instances behind a load balancer.
+Requests are distributed across instances and database access is optimized using connection pooling.
 
-Backend API container
+Response Measure:
+The system handles large bursts of concurrent requests without request failures or unacceptable response-time degradation.
 
-The current architecture risks performance degradation or request failures under high concurrent load if backend components cannot scale quickly enough.
+
 
 * Scalability problem solution :
 
