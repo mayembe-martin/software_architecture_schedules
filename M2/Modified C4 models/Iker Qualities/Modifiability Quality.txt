@@ -19,29 +19,26 @@ workspace "Exam Management System (EXA)" "Architecture model of the Exam Managem
       // Containers
       web_app = container "Web Application" "Web UI for students and teachers (dashboards, exam terms, grades, results)." "Web SPA" {
 
-        // Web application components
         ui_shell = component "Web UI Shell" "Layout, navigation, authentication shell and common UI elements." "Component"
         ui_terms = component "Exam Term Views" "Pages for browsing and filtering exam terms." "Component"
         ui_registration = component "Registration Views" "Pages for registering/deregistering exams and showing capacities." "Component"
         ui_grading = component "Grading Views" "Teacher views for entering and editing grades." "Component"
         ui_results = component "Results Views" "Students' result/grade overview and history." "Component"
-
-        grade_monitor = component "Grade Publisher Monitor" {
-          description "Validates that uploaded grades have been correctly processed and published within the required time constraints, and triggers notifications on success or failure."
-          technology "Component"
-        }
       }
 
       api = container "Backend API" "Backend service implementing exam terms, registration, grading and results." "Application Service" {
 
-        // Backend components (inside Backend API)
         term_management = component "Exam Term Management" "Create/edit/cancel exam terms and reserve rooms; handle conflicts and post-exam locking." "Component"
         registration = component "Registration Management" "Register/deregister students; enforce eligibility, capacity and time-conflict rules." "Component"
         grading = component "Grading Management" "Enter, validate, finalise and adjust grades." "Component"
         results = component "Result Viewing" "Provide result dashboard, detail views and basic exports." "Component"
         notification = component "Notification Service" "Prepare and trigger notifications for terms, registrations and grades." "Component"
         integration = component "Integration Adapter" "Integrate with SIS and timetable for data and conflicts." "Component"
-        persistence = component "Persistence Adapter" "Central data access for exam terms, registrations, grades and results." "Component"
+
+        term_persistence = component "Term Persistence Adapter" "Data access for exam terms and room reservations." "Component"
+        registration_persistence = component "Registration Persistence Adapter" "Data access for exam registrations and capacities." "Component"
+        grading_persistence = component "Grading Persistence Adapter" "Data access for grades and attendance records." "Component"
+        results_persistence = component "Results Persistence Adapter" "Data access for exam results and history." "Component"
       }
 
       db = container "Database" "Stores exam terms, registrations, grades, rooms and results." "Relational Database"
@@ -63,7 +60,7 @@ workspace "Exam Management System (EXA)" "Architecture model of the Exam Managem
     admin -> web_app "Uses via web browser." "HTTPS"
 
     web_app -> api "Calls backend services." "HTTPS / JSON"
-    api -> db  "Reads/writes exam terms, registrations, grades and results." "JDBC / SQL"
+    api -> db "Reads/writes exam terms, registrations, grades and results." "JDBC / SQL"
 
     api -> sis "Reads course/enrolment data; writes final grades." "REST / batch"
     api -> timetable "Reads timetable and room availability." "REST"
@@ -81,15 +78,16 @@ workspace "Exam Management System (EXA)" "Architecture model of the Exam Managem
     grading -> integration "Synchronises final grades with SIS." ""
     results -> integration "Fetches historic data for result views." ""
 
-    // all domain logic uses Persistence Adapter for DB access
-    term_management -> persistence "Stores and reads exam terms and room reservations." ""
-    registration -> persistence "Stores and reads registrations and capacity counters." ""
-    grading -> persistence "Stores and reads grades and attendance records." ""
-    results -> persistence "Reads grades and exam history for result views and exports." ""
+    term_management -> term_persistence "Stores and reads exam terms and room reservations." ""
+    registration -> registration_persistence "Stores and reads registrations and capacity counters." ""
+    grading -> grading_persistence "Stores and reads grades and attendance records." ""
+    results -> results_persistence "Reads grades and exam history for result views and exports." ""
 
-    persistence -> db "Reads/writes exam terms, registrations, grades and results." "SQL"
+    term_persistence -> db "Reads/writes exam terms and room reservations." "SQL"
+    registration_persistence -> db "Reads/writes registrations and capacity data." "SQL"
+    grading_persistence -> db "Reads/writes grades and attendance records." "SQL"
+    results_persistence -> db "Reads grades and exam history." "SQL"
 
-    // integration with external systems
     integration -> sis "Reads course/enrolment data and writes final grades." "REST / batch"
     integration -> timetable "Reads timetable and room availability." "REST"
 
@@ -99,129 +97,113 @@ workspace "Exam Management System (EXA)" "Architecture model of the Exam Managem
 
     notification -> notification_gateway "Delivers notification messages to users." ""
 
-    // Component-level relationships (web app <-> backend components)
     ui_terms -> term_management "Uses term management APIs." "REST / JSON"
     ui_registration -> registration "Uses registration APIs." "REST / JSON"
     ui_grading -> grading "Uses grading APIs." "REST / JSON"
     ui_results -> results "Uses result query APIs." "REST / JSON"
     ui_shell -> notification "Triggers user notifications (e.g. banners/toasts)." "REST / JSON"
     ui_shell -> identity_provider "Coordinates login/logout via SSO." "OIDC"
-
-    // Grade Publisher Monitor relationships
-    grade_monitor -> results "Verifies availability of published grades." "REST / JSON"
-    grade_monitor -> notification "Triggers success or failure notifications to teachers." "REST / JSON"
-    grade_monitor -> grading "Requests validation status of grade processing." "REST / JSON"
-
-    // Relationship required by Dynamic View
-    ui_results -> grade_monitor "Requests grade availability verification." "Internal"
-
-    // -------------------------------------------------
-    // Deployment environments
-    // -------------------------------------------------
-
-    deploymentEnvironment "Development" {
-
-      deploymentNode "Developer Laptop / Test Server" "Local development machine or shared test server." "Workstation / Test VM" {
-        web_app_dev = containerInstance web_app
-        api_dev = containerInstance api
-        db_dev = containerInstance db
-      }
-
-      deploymentNode "External Systems (Test)" "Test/staging instances of external systems." "External / Test" {
-        sis_test = softwareSystemInstance sis
-        timetable_test = softwareSystemInstance timetable
-        notif_test = softwareSystemInstance notification_gateway
-        idp_test = softwareSystemInstance identity_provider
-      }
-    }
-
-    deploymentEnvironment "Production" {
-
-      deploymentNode "User Devices" "Student, teacher and admin browsers." "Browser" {
-        web_app_prod = containerInstance web_app
-      }
-
-      deploymentNode "Institution Data Center" "On-prem or cloud environment for EXA." "Data Center" {
-
-        deploymentNode "EXA Application Server" "Runs EXA Backend API." "Application Server" {
-          api_prod = containerInstance api
-        }
-
-        deploymentNode "EXA Database Server" "Runs relational database for EXA." "Database Server" {
-          db_prod = containerInstance db
-        }
-      }
-
-      deploymentNode "External Systems" "Existing institutional systems (production)." "External" {
-        sis_prod = softwareSystemInstance sis
-        timetable_prod = softwareSystemInstance timetable
-        notif_prod = softwareSystemInstance notification_gateway
-        idp_prod = softwareSystemInstance identity_provider
-      }
-    }
   }
 
   views {
 
-    // L1: System context
     systemContext exa "EXA-SystemContext" "System context of the Exam Management System." {
       include *
       autoLayout
     }
 
-    // L2: Containers
     container exa "EXA-Containers" "Container view of the Exam Management System." {
       include *
       autoLayout
     }
 
-    // L3: Components of Backend API
     component api "EXA-API-Components" "Major backend components of the EXA Backend API." {
       include *
       autoLayout
     }
 
-    // L3: Components of Web Application
     component web_app "EXA-WebApp-Components" "Major UI components of the EXA Web Application." {
       include *
       autoLayout
     }
 
-    // ==============================
-    // Dynamic View – Grade Publication Monitoring
-    // ==============================
-    dynamic web_app "EXA-DYN-GradePublicationMonitoring" "Grade publication validation and monitoring flow." {
+    dynamic api "EXA-DYN-ExamTermManagement" "Teacher creates/edits exam term and reserves a room." {
 
-      ui_results -> grade_monitor "Request verification of grade availability"
+      web_app -> term_management "Create/edit term"
 
-      grade_monitor -> results "Check published grades availability"
-      results -> grade_monitor "Availability status"
+      term_management -> integration "Load course & teacher data"
+      integration -> sis "Request data"
+      sis -> integration "Return data"
+      integration -> term_management "Return SIS data"
 
-      grade_monitor -> notification "Send success/failure notification"
-      notification -> notification_gateway "Deliver notification"
+      term_management -> integration "Search rooms"
+      integration -> timetable "Request room availability"
+      timetable -> integration "Available rooms"
+      integration -> term_management "Return room data"
+
+      term_management -> term_persistence "Store exam term & reservation"
+      term_persistence -> db "Store exam term & reservation"
+
+      term_management -> notification "Trigger notifications"
+      notification -> notification_gateway "Send SMS/e-mail"
 
       autoLayout lr
     }
 
-    styles {
-      element "Person" {
-        shape person
-      }
-      element "Software System" {
-        background #1168bd
-        color #ffffff
-      }
-      element "Container" {
-        background #438dd5
-        color #ffffff
-      }
-      element "Component" {
-        background #85bbf0
-        color #000000
-      }
+    dynamic api "EXA-DYN-ExamRegistration" "Student registers or deregisters for an exam term." {
+
+      web_app -> registration "Begin registration"
+
+      registration -> integration "Validate enrolment"
+      integration -> sis "Check SIS eligibility"
+      sis -> integration "Eligibility result"
+      integration -> registration "Return validation"
+
+      registration -> registration_persistence "Store registration update"
+      registration_persistence -> db "Store registration update"
+
+      registration -> notification "Trigger confirmation"
+      notification -> notification_gateway "Send confirmation"
+
+      autoLayout lr
+    }
+
+    dynamic api "EXA-DYN-Grading" "Teacher enters, finalises and publishes grades." {
+
+      web_app -> grading "Open grading screen / submit grades"
+
+      grading -> grading_persistence "Load registrations and existing grades"
+      grading_persistence -> db "Read registrations and grades"
+
+      grading -> grading_persistence "Store updated grades"
+      grading_persistence -> db "Write updated grades"
+
+      grading -> integration "Synchronise final grades with SIS"
+      integration -> sis "Send final grades"
+      sis -> integration "Acknowledgement"
+      integration -> grading "Sync status"
+
+      grading -> notification "Trigger grade publication notification"
+      notification -> notification_gateway "Send SMS/e-mail about new grades"
+
+      autoLayout lr
+    }
+
+    dynamic api "EXA-DYN-ResultViewing" "Student views exam results and grade history." {
+
+      web_app -> results "Open results dashboard"
+
+      results -> results_persistence "Query recent results and exam history"
+      results_persistence -> db "Read grades and exam history"
+
+      results -> integration "Request historic data (if needed)"
+      integration -> sis "Fetch historic grades"
+      sis -> integration "Return historic data"
+      integration -> results "Return SIS history"
+
+      autoLayout lr
     }
 
     theme default
   }
-
 }
