@@ -27,14 +27,48 @@ Architecture change: Not needed, the system just recovers.
 
 Iker:
 
-1) Availability Problem: A Student wants to check a grade from the Web Application, but in the Backend API, the Persistence Adapter is not returning to the Result Viewing the grade mark.
+AVALABILITY PROBLEM
+1) Requirement: After having the marks of an exam, the system must receive the uploaded marks from the teacher and must display them 
+    within a maximum of 15 minutes.
 
-Solution: The systems sends both to the teacher and to the Student a notification that the system is not working. In the case of the teacher, he Will receive a notification from the system that is not working, and a reminder of sending personally to the Student the pertinent grade. In the case of the Student, the system Will send him a notification of the system not working along with a notification that the teacher Will send him the grade personally.
+    Problem: When the system recieves the marks from the teacher, it does not always process them correctly and, as a consequence, 
+    the marks are not displayed to the students in time (15 min).
 
+    Solution: After the upload of the marks by the teacher, the system performs a validation process lasting up to 1 minute.
+    This is achieved by implementing a Grade Publisher Monitor container in the Web Application layer of the architecture.
+    If the validation fails, a notification is sent to the teacher informing that the marks have not been correctly published,
+    so corrective action can be taken in order to meet the 15-minute margin.
+    If the validation succeeds, the Grade Publisher Monitor sends a confirmation notification to the teacher indicating that the 
+    marks have been correctly published.
 
-2) Modifiability problem: The grading system must be modified in order to include a new feature, and the IT deparment must do it within an hour (time). However, when the IT deparment examinates the system they realise that the data Flow of the grading service is merged with other data flows of the rest of the services into one Persistence Adapter, right before Reading information of the DataBase. The problema is that if one data Flow wants to be modified, every data Flow must be also modified and this makes the modification of the system something far more complex and that takes much more time that the established time (1 hour).
+    Source of stimulus: Results Views component (Web Application), requesting updated exam marks for student visualization.
+    Stimulus: Results Views requests the publication and availability of newly uploaded exam marks from the Web Application.
+    Environment: Normal system operation, with internal container communication enabled between Web Application and Backend API.
+    Artifact: Web Application – Grade Publisher Monitor container.
+    Response: Validation from the Grade Publisher Monitor, if succeded confirmation, if failed notification of failure.
+    Measure: Validation < 1 min. Mark availability < 15 min.
 
-Solution: To make the system more modifiable, the unique persistent adpater can be splited in many independent adapters, one for each service's data Flow. With this, every time one data Flow needs to be modified, it can be done idependently from the other data flows and in the time lapse required (in this case, 1 hour).
+MODIFIABILITY PROBLEM
+2) Requirement: The grading system must be modifiable to include a new feature, and the IT department must be able to implement 
+   the change within a maximum of 1 hour.
+
+    Problem: When the IT department analyses the system, they identify that the data flow of the Grading Management component 
+    is merged with the data flows of other backend services into a single shared Persistence Adapter before accessing the Database.
+    As a consequence, any modification in the grading data flow requires changes in the shared persistence logic, impacting multiple 
+    services. This tight coupling increases complexity, regression risk, and testing effort, making it impossible to perform the 
+    modification within the required 1-hour time limit.
+
+    Solution: To improve modifiability, the single shared Persistence Adapter is split into multiple independent persistence adapters,
+    one per service data flow. With this separation, changes in the grading data flow affect only the Grading Persistence Adapter 
+    and the Grading Management component, other services remain untouched and the time requiered to do any modification in any data 
+    flow is significantly reduced, allowing the change to be implemented within the 1-hour constraint.
+
+    Source of stimulus: IT Department / Maintenance Engineer.
+    Stimulus: A request to modify the Grading Management functionality to include a new feature.
+    Environment: System in maintenance mode, with access to the Backend API source code, automated build pipeline, and test environment.
+    Artifact: Backend API – Grading Management component and its dedicated Grading Persistence Adapter
+    Response: The IT department modifies only the grading-related business logic and its dedicated persistence adapter.No changes are required in persistence adapters of other services
+    Measure: Modification < 1 hour. Only grading-related components and adapters are changed. 
 
 
 Vladyslav:
