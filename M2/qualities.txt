@@ -1,15 +1,15 @@
 Valentyn:
 
 1)
-Source of stimulus: Grading Management (unauthorized access)
+Source of stimulus: Grading Management
 Stimulus: Editing the grades with an unauthorized access
 Environment: Run-time
 Artifact: Persistence Adapter
 Response: Unauthorized access detected
 Measure: Notification is sent
 
-Security Problem: An attacker tries to modify the grades by sending a grade edit request to Grading Management component.
-Solution: The request is detected, an attacker is not recognized as a teacher, notification is sent.
+Security Problem: The Grading Management component tries to modify the grades while logged in as an attacker.
+Solution: The request is detected, an attacker is not recognized, notification is sent.
 Architecture change: Not needed because a notification is just being sent.
 
 2)
